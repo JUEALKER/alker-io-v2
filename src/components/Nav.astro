@@ -10,12 +10,12 @@
       <ul>
         <li>
           <a href="#intro" aria-label="to intro" data-js="nav-link" class="is-active">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#intro-1" aria-label="to intro part 2" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
       </ul>
@@ -26,12 +26,12 @@
       <ul>
         <li>
           <a href="#about" aria-label="to about me" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#about-1" aria-label="to about me part 2" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
       </ul>
@@ -42,47 +42,47 @@
       <ul>
         <li>
           <a href="#principles" aria-label="to principles" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-1" aria-label="to principles part 2" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-2" aria-label="to principles part 3" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-3" aria-label="to principles part 4" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-4" aria-label="to principles part 5" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-5" aria-label="to principles part 6" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-6" aria-label="to principles part 7" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-7" aria-label="to principles part 8" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
         <li>
           <a href="#principles-8" aria-label="to principles part 9" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
       </ul>
@@ -93,7 +93,7 @@
       <ul>
         <li>
           <a href="#contact" aria-label="to contact" data-js="nav-link">
-            <span></span>
+            <span class="bar"></span>
           </a>
         </li>
       </ul>
@@ -156,20 +156,20 @@
   }
 
   /* Fill all preceding items when a later sibling is active */
-  li:has(~ li.is-active) span::after {
+  li:has(~ li.is-active) .bar::after {
     transform: scaleX(1);
   }
 
   /* Rounded left caps for first item */
-  li:first-child a span::before,
-  li:first-child a span::after {
+  li:first-child a .bar::before,
+  li:first-child a .bar::after {
     border-top-left-radius: 999px;
     border-bottom-left-radius: 999px;
   }
 
   /* Rounded right caps for last item */
-  li:last-child a span::before,
-  li:last-child a span::after {
+  li:last-child a .bar::before,
+  li:last-child a .bar::after {
     border-top-right-radius: 999px;
     border-bottom-right-radius: 999px;
   }
@@ -193,11 +193,11 @@
   }
 
   /* Auto-advance animation on active item */
-  a.is-active:not(.is-paused) span::after {
+  a.is-active:not(.is-paused) .bar::after {
     animation: fill 8s linear 0s 1 normal forwards;
   }
 
-  span {
+  .bar {
     position: relative;
     display: block;
     width: 100%;
@@ -205,8 +205,8 @@
     margin-bottom: 0.625rem;
   }
 
-  span::before,
-  span::after {
+  .bar::before,
+  .bar::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -215,12 +215,12 @@
     background-color: currentColor;
   }
 
-  span::before {
+  .bar::before {
     opacity: 0.3;
     border-radius: 999px;
   }
 
-  span::after {
+  .bar::after {
     opacity: 1;
     transform: scaleX(0);
     transform-origin: left;
@@ -241,7 +241,7 @@
     }
 
     /* No fill-forward on desktop; each item animates independently */
-    li:has(~ li.is-active) span::after {
+    li:has(~ li.is-active) .bar::after {
       transform: scaleX(0);
     }
 
@@ -249,8 +249,8 @@
       display: none;
     }
 
-    span::before,
-    span::after {
+    .bar::before,
+    .bar::after {
       border-radius: 999px;
     }
   }
