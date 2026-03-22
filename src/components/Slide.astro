@@ -1,0 +1,155 @@
+---
+import Trigger from './Trigger.astro';
+
+interface Props {
+  id: string;
+  colorBg: string;
+  colorInner: string;
+  triggerInverted?: boolean;
+  triggerAlwaysVisible?: boolean;
+  imageMobile?: string;
+  imageDesktop?: string;
+  imageAlt?: string;
+  /** Set to true only for the first visible (above-fold) slide that contains images */
+  imageEager?: boolean;
+}
+
+const {
+  id,
+  colorBg,
+  colorInner,
+  triggerInverted = false,
+  triggerAlwaysVisible = false,
+  imageMobile,
+  imageDesktop,
+  imageAlt = '',
+  imageEager = false,
+} = Astro.props;
+
+const hasImage = imageMobile || imageDesktop;
+---
+
+<section
+  id={id}
+  data-js="slide"
+  data-color-bg={colorBg}
+  data-color-inner={colorInner}
+>
+  <div class="inner" data-js="touch-area" data-color-inner={colorInner}>
+    <Trigger inverted={triggerInverted} alwaysVisible={triggerAlwaysVisible} />
+
+    {hasImage && (
+      <>
+        {imageMobile && (
+          <img
+            src={imageMobile}
+            alt={imageAlt}
+            loading={imageEager ? 'eager' : 'lazy'}
+            class="bg-image is-mobile"
+          />
+        )}
+        {imageDesktop && (
+          <img
+            src={imageDesktop}
+            alt={imageAlt}
+            loading={imageEager ? 'eager' : 'lazy'}
+            fetchpriority={imageEager ? 'high' : 'auto'}
+            class="bg-image is-desktop"
+          />
+        )}
+      </>
+    )}
+
+    <div class="content">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    width: 100%;
+    height: 100%;
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.4s var(--ease-in-out-custom) 0.1s,
+      visibility 0.4s var(--ease-in-out-custom) 0.1s;
+  }
+
+  section.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  section[data-color-inner="dark"],
+  section[data-color-inner="grey-dark"] {
+    color: var(--c-light);
+  }
+
+  .inner {
+    position: relative;
+    height: 100%;
+    padding: clamp(
+      0.9375rem,
+      1500 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 30 - var(--fluid-max) * 15) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      1.875rem
+    );
+    background-color: var(--c-inner);
+    border-radius: 0.625rem;
+    overflow: clip;
+  }
+
+  .inner:has(.bg-image)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 10rem;
+    background-image: linear-gradient(to bottom, #ffffffe6, #fff0);
+    pointer-events: none;
+  }
+
+  .bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bg-image.is-desktop {
+    display: none;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 560px) {
+    .inner::before {
+      display: none;
+    }
+
+    .bg-image.is-mobile {
+      display: none;
+    }
+
+    .bg-image.is-desktop {
+      display: block;
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+{
+  "name": "Alker – Strategic Advisory",
+  "short_name": "Alker",
+  "description": "Strategic advisory practice of Jürgen Alker",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#DCFF00",
+  "background_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/favicon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

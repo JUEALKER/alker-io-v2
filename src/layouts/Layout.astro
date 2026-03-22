@@ -1,0 +1,174 @@
+---
+import Nav from '@components/Nav.astro';
+import LegalDialog from '@components/dialogs/Legal.astro';
+import PrivacyDialog from '@components/dialogs/Privacy.astro';
+import '@styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Alker',
+  description = 'Alker is the strategic advisory practice of Jürgen Alker, built on 30 years of experience turning ideas, brands, and ventures into commercial impact.',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#DCFF00" />
+
+    <title>{title}</title>
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO -->
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://www.alker.io/og-image.jpg" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Alker – Strategic Advisory" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://www.alker.io/og-image.jpg" />
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Alker",
+        "description": "Strategic advisory practice of Jürgen Alker",
+        "url": "https://www.alker.io",
+        "sameAs": [
+          "https://www.linkedin.com/in/juergenalker/",
+          "https://www.instagram.com/alker/"
+        ],
+        "founder": {
+          "@type": "Person",
+          "name": "Jürgen Alker",
+          "email": "j@alker.io",
+          "sameAs": [
+            "https://www.linkedin.com/in/juergenalker/",
+            "https://www.instagram.com/alker/"
+          ]
+        }
+      }
+    </script>
+
+    <!-- Font preloads -->
+    <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Analytics preconnect -->
+    <link rel="preconnect" href="https://cdn.usefathom.com" />
+
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="wA40tQyeSUpXamkuNwmL5bw8ANL0ppGiejiwjpwefgM" />
+
+    <!-- Fathom Analytics -->
+    <script src="https://cdn.usefathom.com/script.js" data-site="UCAARVFU" defer></script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+    <div
+      class="layout"
+      data-js="layout"
+      data-color-bg="grey-light"
+    >
+      <main id="main-content">
+        <slot />
+      </main>
+
+      <Nav />
+    </div>
+
+    <LegalDialog />
+    <PrivacyDialog />
+  </body>
+</html>
+
+<style>
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 0.625rem;
+    z-index: 9999;
+    padding: 0.5rem 1rem;
+    background-color: var(--c-dark);
+    color: var(--c-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0 0 0.25rem 0.25rem;
+    transition: top 0.2s;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    height: 100dvh;
+    background-color: var(--c-bg);
+    transition: background-color 0.4s var(--ease-in-out-custom);
+  }
+
+  main {
+    flex-grow: 1;
+    padding-top: var(--grid-margin);
+    display: grid;
+  }
+</style>
+
+<script>
+  import Lenis from 'lenis';
+
+  // Smooth scroll (progressive enhancement)
+  const lenis = new Lenis();
+  const raf = (time: number) => {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  };
+  requestAnimationFrame(raf);
+
+  // Console easter egg (credit to Jan Kohlbach)
+  console.log(
+    '%c ',
+    `
+  background: #1A1A18 url("data:image/svg+xml,%3Csvg viewBox='0 0 365 266' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M45.01 226.68C40.64 226.33 36.97 225.8 34 225.11L35.05 202.83C37.67 203.35 41.08 203.84 45.27 204.27C49.46 204.71 52.87 204.93 55.49 204.93C65.8 204.93 73.22 201.39 77.77 194.32C82.31 187.24 84.58 176.72 84.58 162.74L84.05 38H107.63L108.15 171.39C108.32 188.34 103.87 201.88 94.78 212.01C85.69 222.14 73.2 227.21 57.31 227.21C53.47 227.21 49.36 227.03 44.99 226.69L45.01 226.68ZM134.37 147.54H220.59V168.5H134.37V147.54ZM181.01 38H208.79L330.65 223.01H303.13L181.01 38Z' fill='%23fffefd'/%3E%3C/svg%3E%0A");
+  padding-left: 100px;
+  padding-top: 60px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  `,
+  );
+  console.log('%c code by https://jankohlbach.com', 'color:#FFFEFD;background:#1A1A18;padding:5px 10px;');
+</script>

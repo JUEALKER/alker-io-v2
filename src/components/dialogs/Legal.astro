@@ -1,0 +1,189 @@
+---
+// Legal Notice / Impressum dialog
+---
+
+<dialog id="dialog-legal" data-js="dialog-legal" data-lenis-prevent aria-modal="true" aria-labelledby="dialog-legal-title">
+  <div class="container">
+    <button class="close" autofocus data-js="dialog-legal-close" aria-label="close dialog">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.281 14.2198C15.3507 14.2895 15.406 14.3722 15.4437 14.4632C15.4814 14.5543 15.5008 14.6519 15.5008 14.7504C15.5008 14.849 15.4814 14.9465 15.4437 15.0376C15.406 15.1286 15.3507 15.2114 15.281 15.281C15.2114 15.3507 15.1286 15.406 15.0376 15.4437C14.9465 15.4814 14.849 15.5008 14.7504 15.5008C14.6519 15.5008 14.5543 15.4814 14.4632 15.4437C14.3722 15.406 14.2895 15.3507 14.2198 15.281L8.00042 9.06073L1.78104 15.281C1.64031 15.4218 1.44944 15.5008 1.25042 15.5008C1.05139 15.5008 0.860523 15.4218 0.719792 15.281C0.579062 15.1403 0.5 14.9494 0.5 14.7504C0.5 14.5514 0.579062 14.3605 0.719792 14.2198L6.9401 8.00042L0.719792 1.78104C0.579062 1.64031 0.5 1.44944 0.5 1.25042C0.5 1.05139 0.579062 0.860523 0.719792 0.719792C0.860523 0.579062 1.05139 0.5 1.25042 0.5C1.44944 0.5 1.64031 0.579062 1.78104 0.719792L8.00042 6.9401L14.2198 0.719792C14.3605 0.579062 14.5514 0.5 14.7504 0.5C14.9494 0.5 15.1403 0.579062 15.281 0.719792C15.4218 0.860523 15.5008 1.05139 15.5008 1.25042C15.5008 1.44944 15.4218 1.64031 15.281 1.78104L9.06073 8.00042L15.281 14.2198Z" fill="white"/>
+      </svg>
+    </button>
+    <div class="inner">
+      <div class="richtext richtext--small">
+        <span class="h2" id="dialog-legal-title">Legal Notice</span>
+
+        <strong>Provider</strong>
+        <p>
+          Jürgen Alker<br>
+          Friedensallee 54a<br>
+          22765 Hamburg<br>
+          Germany
+        </p>
+
+        <strong>Contact Options</strong>
+        <p>
+          E-Mail Address: <a href="mailto:mail@alker.io" aria-label="mailto link to mail@alker.io">mail@alker.io</a><br>
+          Phone: +49 40 288 033 09
+        </p>
+
+        <strong>Journalistic-Editorial Services</strong>
+        <p>Responsible for content: Jürgen Alker</p>
+
+        <strong>Company Details</strong>
+        <p>VAT identification number: DE341641992</p>
+
+        <strong>Business area</strong>
+        <p>Consulting</p>
+
+        <strong>Liability and Intellectual Property Rights Information</strong>
+        <p>
+          <strong>Link Disclaimer:</strong> We do not accept any responsibility for
+          or endorse the content of external websites we link to, whether directly
+          or indirectly. The providers of the linked websites are solely responsible
+          for all content presented on their websites and in particular, any damage
+          resulting from the use the information offered on their websites.
+        </p>
+        <p>
+          <strong>Information on legal infringements:</strong> Please notify us if
+          you notice any rights violations on our website. Once notified, we will
+          promptly remove any illegal content or links.
+        </p>
+
+        <strong>Design</strong>
+        <p>
+          <a href="https://br.studio/" target="_blank" aria-label="external link to Bräutigam & Rotermund">BR*Studio</a>
+        </p>
+
+        <strong>Images</strong>
+        <p>
+          <a href="https://www.hannalenz.com/" target="_blank" aria-label="external link to Hanna Lenz">Hanna Lenz</a>
+        </p>
+
+        <strong>Code</strong>
+        <p>
+          <a href="https://jankohlbach.com/" target="_blank" aria-label="external link to Jan Kohlbach">Jan Kohlbach</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  dialog {
+    max-width: 100%;
+    max-height: 100dvh;
+    width: 100%;
+    height: 100dvh;
+    background-color: var(--c-grey-dark);
+    border: none;
+    overflow: clip;
+    animation: dialog-fade-out 0.4s var(--ease-in-out-custom);
+  }
+
+  dialog[open] {
+    animation: dialog-fade-in 0.4s var(--ease-in-out-custom);
+  }
+
+  .container {
+    position: relative;
+    height: 100%;
+    padding-block: var(--grid-margin);
+  }
+
+  .inner {
+    max-height: calc(100dvh - 2 * var(--grid-margin));
+    padding: clamp(
+      0.9375rem,
+      1500 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 30 - var(--fluid-max) * 15) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      1.875rem
+    );
+    padding-top: 6.25rem;
+    background-color: var(--c-grey-light);
+    border-radius: 0.625rem;
+    overflow: auto;
+  }
+
+  .close {
+    position: absolute;
+    top: clamp(
+      1.875rem,
+      1000 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 40 - var(--fluid-max) * 30) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      2.5rem
+    );
+    right: clamp(
+      1.875rem,
+      1000 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 40 - var(--fluid-max) * 30) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      2.5rem
+    );
+    z-index: 1;
+    padding: clamp(
+      0.625rem,
+      1000 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 20 - var(--fluid-max) * 10) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      1.25rem
+    );
+    aspect-ratio: 1 / 1;
+    font-size: 1rem;
+    color: var(--c-light);
+    background-color: var(--c-dark);
+    border-radius: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .close:focus-visible {
+    outline: 2px solid var(--c-primary);
+    outline-offset: 3px;
+  }
+
+  .close svg {
+    width: clamp(
+      0.9375rem,
+      500 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 20 - var(--fluid-max) * 15) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      1.25rem
+    );
+    height: clamp(
+      0.9375rem,
+      500 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 20 - var(--fluid-max) * 15) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      1.25rem
+    );
+    aspect-ratio: 1 / 1;
+  }
+
+  .richtext {
+    max-width: 60rem;
+    hyphens: auto;
+  }
+</style>
+
+<script>
+  const openBtns = document.querySelectorAll<HTMLButtonElement>('[data-js="dialog-legal-open"]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-js="dialog-legal-close"]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-js="dialog-legal"]');
+
+  openBtns?.forEach(a => {
+    a.addEventListener('click', () => {
+      dialog?.showModal();
+      window.dispatchEvent(new Event('nav:stop'));
+    });
+  });
+
+  closeBtn?.addEventListener('click', () => {
+    dialog?.close();
+  });
+
+  dialog?.addEventListener('close', () => {
+    window.dispatchEvent(new Event('nav:start'));
+  });
+</script>

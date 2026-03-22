@@ -1,0 +1,52 @@
+---
+interface Props {
+  inverted?: boolean;
+  alwaysVisible?: boolean;
+}
+
+const { inverted = false, alwaysVisible = false } = Astro.props;
+
+const classes = [
+  'trigger',
+  inverted ? 'is-inverted' : '',
+  alwaysVisible ? 'is-always-visible' : '',
+].filter(Boolean).join(' ');
+---
+
+<div class={classes}>
+  <button data-js="dialog-legal-open" aria-haspopup="dialog" aria-controls="dialog-legal" aria-label="Open Legal Notice">Imprint</button>
+  <button data-js="dialog-privacy-open" aria-haspopup="dialog" aria-controls="dialog-privacy" aria-label="Open Privacy Policy">Privacy</button>
+</div>
+
+<style>
+  .trigger {
+    position: absolute;
+    bottom: 0.625rem;
+    right: 0.875rem;
+    z-index: 5;
+    display: none;
+    gap: 0.75rem;
+    color: currentColor;
+  }
+
+  .trigger.is-always-visible {
+    display: flex;
+  }
+
+  .trigger.is-inverted {
+    mix-blend-mode: difference;
+    color: var(--c-light);
+  }
+
+  @media (min-width: 768px) {
+    .trigger {
+      top: 0.625rem;
+      bottom: auto;
+      display: flex;
+    }
+  }
+
+  button {
+    font-size: 0.75rem;
+  }
+</style>

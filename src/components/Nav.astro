@@ -1,0 +1,398 @@
+---
+// No props – nav structure is fixed
+---
+
+<nav class="nav" data-js="nav" role="navigation" aria-label="Page sections">
+  <div class="container list">
+
+    <div class="section">
+      <span class="title">Alker</span>
+      <ul>
+        <li>
+          <a href="#" aria-label="to intro" data-js="nav-link" class="is-active">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#intro-1" aria-label="to intro part 2" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <span class="title">About</span>
+      <ul>
+        <li>
+          <a href="#about" aria-label="to about me" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#about-1" aria-label="to about me part 2" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <span class="title">Principles</span>
+      <ul>
+        <li>
+          <a href="#principles" aria-label="to principles" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-1" aria-label="to principles part 2" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-2" aria-label="to principles part 3" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-3" aria-label="to principles part 4" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-4" aria-label="to principles part 5" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-5" aria-label="to principles part 6" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-6" aria-label="to principles part 7" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-7" aria-label="to principles part 8" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+        <li>
+          <a href="#principles-8" aria-label="to principles part 9" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <span class="title">Contact</span>
+      <ul>
+        <li>
+          <a href="#contact" aria-label="to contact" data-js="nav-link">
+            <span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<style>
+  .nav {
+    color: var(--c-dark);
+    transition: color 0.4s var(--ease-in-out-custom);
+  }
+
+  .nav.is-dark {
+    color: var(--c-light);
+  }
+
+  .list {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .section {
+    position: relative;
+  }
+
+  .section:nth-child(1) { flex-grow: 2; }
+  .section:nth-child(2) { flex-grow: 2; }
+  .section:nth-child(3) { flex-grow: 4; }
+  .section:nth-child(4) { flex-grow: 1; }
+
+  .title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    font-size: clamp(
+      0.75rem,
+      200 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+        (var(--fluid-min) * 14 - var(--fluid-max) * 12) /
+        (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+      0.875rem
+    );
+    pointer-events: none;
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+  }
+
+  li {
+    flex-grow: 1;
+  }
+
+  /* On mobile: only first item is clickable per section */
+  li:not(:first-child) {
+    pointer-events: none;
+  }
+
+  /* Fill all preceding items when a later sibling is active */
+  li:has(~ li.is-active) span::after {
+    transform: scaleX(1);
+  }
+
+  /* Rounded left caps for first item */
+  li:first-child a span::before,
+  li:first-child a span::after {
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+  }
+
+  /* Rounded right caps for last item */
+  li:last-child a span::before,
+  li:last-child a span::after {
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 2.125rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Large touch target on mobile */
+  a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Auto-advance animation on active item */
+  a.is-active:not(.is-paused) span::after {
+    animation: fill 8s linear 0s 1 normal forwards;
+  }
+
+  span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 0.125rem;
+    margin-bottom: 0.625rem;
+  }
+
+  span::before,
+  span::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+  }
+
+  span::before {
+    opacity: 0.3;
+  }
+
+  span::after {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @media (min-width: 768px) {
+    .section:nth-child(1) { flex-grow: 2; }
+    .section:nth-child(2) { flex-grow: 2; }
+    .section:nth-child(3) { flex-grow: 9; }
+
+    ul {
+      gap: 0.25rem;
+    }
+
+    /* All items clickable on desktop */
+    li:nth-child(n) {
+      pointer-events: all;
+    }
+
+    /* No fill-forward on desktop; each item animates independently */
+    li:has(~ li.is-active) span::after {
+      transform: scaleX(0);
+    }
+
+    a::before {
+      display: none;
+    }
+
+    span::before,
+    span::after {
+      border-radius: 999px;
+    }
+  }
+
+  @keyframes fill {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+</style>
+
+<script>
+  import VirtualScroll from 'virtual-scroll';
+
+  const layout   = document.querySelector<HTMLElement>('[data-js="layout"]');
+  const nav      = document.querySelector<HTMLElement>('[data-js="nav"]');
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-js="nav-link"]');
+  const touchAreas = document.querySelectorAll<HTMLElement>('[data-js="touch-area"]');
+  const dialogLegal   = document.querySelector<HTMLDialogElement>('[data-js="dialog-legal"]');
+  const dialogPrivacy = document.querySelector<HTMLDialogElement>('[data-js="dialog-privacy"]');
+
+  const colorMap: Record<string, string> = {
+    light: '#FFFFFF',
+    dark: '#000000',
+    primary: '#DCFF00',
+    'grey-light': '#E3E1DF',
+    'grey-dark': '#646464',
+  };
+
+  let timer: ReturnType<typeof setInterval>;
+  let isThrottled = false;
+
+  const getActiveIndex = () =>
+    Array.from(navLinks).findIndex(l => l.classList.contains('is-active'));
+
+  const goTo = (link: HTMLAnchorElement) => {
+    resetTimer();
+    dialogLegal?.close();
+    dialogPrivacy?.close();
+
+    navLinks.forEach(l => {
+      l.classList.remove('is-active', 'is-paused');
+      l.parentElement?.classList.remove('is-active');
+    });
+
+    link.classList.add('is-active');
+    link.parentElement?.classList.add('is-active');
+
+    document.querySelector<HTMLElement>('[data-js="slide"].is-active')?.classList.remove('is-active');
+
+    const targetId = link.getAttribute('href')?.replace('#', '') ?? '';
+    const slide = document.getElementById(targetId);
+
+    if (slide && layout) {
+      slide.classList.add('is-active');
+      const bg = slide.dataset.colorBg ?? 'primary';
+      layout.dataset.colorBg = bg;
+
+      const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+      themeColor?.setAttribute('content', colorMap[bg] ?? '#DCFF00');
+
+      if (bg === 'grey-dark') {
+        nav?.classList.add('is-dark');
+      } else {
+        nav?.classList.remove('is-dark');
+      }
+    }
+  };
+
+  const prev = () => {
+    const i = getActiveIndex();
+    goTo(i > 0 ? navLinks[i - 1] : navLinks[navLinks.length - 1]);
+  };
+
+  const next = () => {
+    const i = getActiveIndex();
+    goTo(i < navLinks.length - 1 ? navLinks[i + 1] : navLinks[0]);
+  };
+
+  const resetTimer = () => {
+    clearInterval(timer);
+    timer = setInterval(next, 8000);
+  };
+
+  // Click on nav links
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(link);
+    });
+  });
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+
+  // Scroll / swipe navigation
+  interface VirtualScrollEvent {
+    x: number;
+    y: number;
+    deltaX: number;
+    deltaY: number;
+    originalEvent: Event;
+  }
+
+  const vs = new VirtualScroll();
+  vs.on((e: VirtualScrollEvent) => {
+    if (e.originalEvent.type === 'keydown') return;
+    if (dialogLegal?.open || dialogPrivacy?.open) return;
+    if (isThrottled) return;
+
+    if (Math.abs(e.deltaX) > 20) {
+      e.deltaX < 0 ? next() : prev();
+      isThrottled = true;
+      setTimeout(() => { isThrottled = false; }, 1000);
+    } else if (Math.abs(e.deltaY) > 20) {
+      e.deltaY < 0 ? next() : prev();
+      isThrottled = true;
+      setTimeout(() => { isThrottled = false; }, 1000);
+    }
+  });
+
+  // Touch area click → advance
+  touchAreas.forEach(area => {
+    area.addEventListener('click', (e) => {
+      if ((e.target as Element)?.closest('a, button, input, select, textarea')) return;
+      e.preventDefault();
+      next();
+    });
+  });
+
+  // External nav control events
+  window.addEventListener('nav:stop', () => {
+    clearInterval(timer);
+    navLinks[getActiveIndex()]?.classList.add('is-paused');
+  });
+
+  window.addEventListener('nav:start', () => {
+    goTo(navLinks[getActiveIndex()]);
+  });
+
+  // Activate first slide on init
+  goTo(navLinks[0]);
+  window.addEventListener('load', () => { history.replaceState(null, '', ' '); });
+</script>

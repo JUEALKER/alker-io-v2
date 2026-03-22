@@ -1,0 +1,350 @@
+/* ─────────────────────────────────────────────
+   Design Tokens
+───────────────────────────────────────────── */
+:root {
+  /* Fluid scale breakpoints */
+  --fluid-min: 375;
+  --fluid-max: 1720;
+
+  /* Container */
+  --grid-margin: clamp(
+    0.625rem,
+    1000 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 20 - var(--fluid-max) * 10) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    1.25rem
+  );
+  --grid-gutter: var(--grid-margin);
+  --grid-columns: 12;
+
+  /* Typography */
+  --ff-primary: "Messina Sans", "Helvetica", "Arial", sans-serif;
+
+  /* Font sizes – fluid */
+  --fs-small: clamp(
+    1.125rem,
+    2200 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 40 - var(--fluid-max) * 18) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    2.5rem
+  );
+  --fs-base: clamp(
+    1.625rem,
+    2800 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 54 - var(--fluid-max) * 26) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    3.375rem
+  );
+  --fs-1: clamp(
+    3.75rem,
+    6000 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 120 - var(--fluid-max) * 60) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    7.5rem
+  );
+  --fs-2: clamp(
+    3rem,
+    2400 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 72 - var(--fluid-max) * 48) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    4.5rem
+  );
+  --fs-3: clamp(
+    1rem,
+    400 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 20 - var(--fluid-max) * 16) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    1.25rem
+  );
+  --fs-4: var(--fs-3);
+  --fs-5: var(--fs-3);
+  --fs-6: var(--fs-3);
+
+  /* Font weights */
+  --fw-normal: 400;
+  --fw-semibold: 600;
+  --fw-black: 900;
+
+  /* Colors */
+  --c-light: #ffffff;
+  --c-dark: #000000;
+  --c-primary: #dcff00;
+  --c-grey-light: #e3e1df;
+  --c-grey-dark: #616161; /* Adjusted from #646464 to meet WCAG AA contrast ratio ≥ 4.5:1 on white */
+
+  /* Easing */
+  --ease-in-out-custom: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─────────────────────────────────────────────
+   Web Fonts
+───────────────────────────────────────────── */
+@font-face {
+  font-family: "Messina Sans";
+  src: url("/fonts/MessinaSans-book.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Messina Sans";
+  src: url("/fonts/MessinaSans-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Messina Sans";
+  src: url("/fonts/MessinaSansCondensed-black.woff2") format("woff2");
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* ─────────────────────────────────────────────
+   Reset
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+  height: auto;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  overscroll-behavior: none;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+canvas {
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  appearance: none;
+  background: transparent;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+p {
+  overflow-wrap: break-word;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.1em;
+}
+
+::selection {
+  background-color: var(--c-dark);
+  color: var(--c-primary);
+}
+
+/* ─────────────────────────────────────────────
+   Base
+───────────────────────────────────────────── */
+body {
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-base);
+  background-color: var(--c-light);
+}
+
+/* ─────────────────────────────────────────────
+   Utility
+───────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────
+   Lenis
+───────────────────────────────────────────── */
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   Grid / Container
+───────────────────────────────────────────── */
+.container {
+  padding-inline: var(--grid-margin);
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  gap: var(--grid-gutter);
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+}
+
+/* ─────────────────────────────────────────────
+   Color themes
+───────────────────────────────────────────── */
+[data-color-bg="light"]      { --c-bg: var(--c-light); }
+[data-color-inner="light"]   { --c-inner: var(--c-light); }
+[data-color-bg="dark"]       { --c-bg: var(--c-dark); }
+[data-color-inner="dark"]    { --c-inner: var(--c-dark); }
+[data-color-bg="primary"]    { --c-bg: var(--c-primary); }
+[data-color-inner="primary"] { --c-inner: var(--c-primary); }
+[data-color-bg="grey-light"]      { --c-bg: var(--c-grey-light); }
+[data-color-inner="grey-light"]   { --c-inner: var(--c-grey-light); }
+[data-color-bg="grey-dark"]       { --c-bg: var(--c-grey-dark); }
+[data-color-inner="grey-dark"]    { --c-inner: var(--c-grey-dark); }
+
+/* ─────────────────────────────────────────────
+   Dialogs – fade animation
+───────────────────────────────────────────── */
+@keyframes dialog-fade-in {
+  from { opacity: 0; display: none; }
+  to   { opacity: 1; display: block; }
+}
+
+@keyframes dialog-fade-out {
+  from { opacity: 1; display: block; }
+  to   { opacity: 0; display: none; }
+}
+
+/* ─────────────────────────────────────────────
+   Typography scale
+───────────────────────────────────────────── */
+h1, .h1, h2, .h2, h3, .h3,
+h4, .h4, h5, .h5, h6, .h6 {
+  font-weight: var(--fw-black);
+  line-height: 1;
+}
+
+h1, .h1 { font-size: var(--fs-1); }
+h2, .h2 { font-size: var(--fs-2); }
+h3, .h3 { font-size: var(--fs-3); }
+h4, .h4 { font-size: var(--fs-4); }
+h5, .h5 { font-size: var(--fs-5); }
+h6, .h6 { font-size: var(--fs-6); }
+
+/* ─────────────────────────────────────────────
+   Richtext
+───────────────────────────────────────────── */
+.richtext--small {
+  font-size: clamp(
+    1rem,
+    800 / (var(--fluid-max) - var(--fluid-min)) * 1vw +
+      (var(--fluid-min) * 24 - var(--fluid-max) * 16) /
+      (var(--fluid-min) - var(--fluid-max)) / 16 * 1rem,
+    1.5rem
+  );
+}
+
+.richtext *:not(:last-child) {
+  margin-bottom: 0.8em;
+}
+
+.richtext h1, .richtext .h1,
+.richtext h2, .richtext .h2,
+.richtext h3, .richtext .h3,
+.richtext h4, .richtext .h4,
+.richtext h5, .richtext .h5,
+.richtext h6, .richtext .h6 {
+  display: block;
+}
+
+.richtext h1:not(:first-child), .richtext .h1:not(:first-child),
+.richtext h2:not(:first-child), .richtext .h2:not(:first-child),
+.richtext h3:not(:first-child), .richtext .h3:not(:first-child),
+.richtext h4:not(:first-child), .richtext .h4:not(:first-child),
+.richtext h5:not(:first-child), .richtext .h5:not(:first-child),
+.richtext h6:not(:first-child), .richtext .h6:not(:first-child) {
+  margin-top: 2em;
+}
+
+.richtext ul,
+.richtext ol {
+  padding-left: 1em;
+}
+
+.richtext strong {
+  display: inline-block;
+  font-weight: var(--fw-semibold);
+}
+
+.richtext strong:not(:last-child) {
+  margin-top: 1.6em;
+  margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────
+   Accessibility
+───────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
