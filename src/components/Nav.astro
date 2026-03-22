@@ -105,8 +105,7 @@
 <style>
   .nav {
     color: var(--c-dark);
-    padding-top: 0.625rem;
-    background-color: var(--c-bg);
+    background-color: var(--c-inner);
     transition:
       color 0.4s var(--ease-in-out-custom),
       background-color 0.4s var(--ease-in-out-custom);
@@ -310,12 +309,14 @@
     if (slide && layout) {
       slide.classList.add('is-active');
       const bg = slide.dataset.colorBg ?? 'primary';
+      const inner = slide.dataset.colorInner ?? 'primary';
       layout.dataset.colorBg = bg;
+      layout.dataset.colorInner = inner;
 
       const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
       themeColor?.setAttribute('content', colorMap[bg] ?? '#DCFF00');
 
-      if (bg === 'grey-dark') {
+      if (inner === 'grey-dark' || inner === 'dark') {
         nav?.classList.add('is-dark');
       } else {
         nav?.classList.remove('is-dark');
