@@ -37,7 +37,7 @@ import Slide from '@components/Slide.astro';
         Nothing unnecessary.
       </p>
       <br />
-      <p class="tagline">Less noise.<br />More momentum.</p>
+      <p>Less noise.<br />More momentum.</p>
     </div>
   </Slide>
 
@@ -97,7 +97,7 @@ import Slide from '@components/Slide.astro';
     <div class="heading">
       <h2 class="title h2">Principles</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>These are the principles that guide the way Alker works.</p>
     </div>
   </Slide>
@@ -105,10 +105,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 1 ───────────────────────────────── -->
   <Slide id="principles-1" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Trust is non-negotiable</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>Everything meaningful starts with mutual trust. Transparency and reliability go both ways.</p>
     </div>
   </Slide>
@@ -116,10 +116,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 2 ───────────────────────────────── -->
   <Slide id="principles-2" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Clarity over complexity</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>Complicated plans get ignored. Clear strategies drive action.</p>
     </div>
   </Slide>
@@ -127,10 +127,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 3 ───────────────────────────────── -->
   <Slide id="principles-3" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Direct conversations only</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>No middlemen. No layers. Work happens directly with people who can move.</p>
     </div>
   </Slide>
@@ -138,10 +138,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 4 ───────────────────────────────── -->
   <Slide id="principles-4" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Execution is what matters</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>Ideas are everywhere. Turning them into results is what makes the difference.</p>
     </div>
   </Slide>
@@ -149,10 +149,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 5 ───────────────────────────────── -->
   <Slide id="principles-5" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Impact beats activity</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>Incremental steps are fine. But the goal is meaningful progress, not busywork.</p>
     </div>
   </Slide>
@@ -160,10 +160,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 6 ───────────────────────────────── -->
   <Slide id="principles-6" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">No ego. No hierarchy</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>Titles don't matter. What counts is what moves things forward.</p>
     </div>
   </Slide>
@@ -171,10 +171,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 7 ───────────────────────────────── -->
   <Slide id="principles-7" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Forget the drama</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>What matters is what gets done.</p>
     </div>
   </Slide>
@@ -182,10 +182,10 @@ import Slide from '@components/Slide.astro';
   <!-- ── Principle 8 ───────────────────────────────── -->
   <Slide id="principles-8" colorBg="grey-dark" colorInner="grey-light">
     <div class="heading">
-      <span class="pretitle">Principles</span>
+      <span class="pretitle h3">Principles</span>
       <h2 class="title h1">Let's make sure to have fun along the way</h2>
     </div>
-    <div class="content">
+    <div class="content content-big">
       <p>The best work happens when we're enjoying ourselves.</p>
     </div>
   </Slide>
@@ -267,6 +267,10 @@ import Slide from '@components/Slide.astro';
     line-height: 1.1;
   }
 
+  .content-big {
+    max-width: 88.75rem;
+  }
+
   .content.is-small {
     font-size: var(--fs-small);
   }
@@ -274,12 +278,6 @@ import Slide from '@components/Slide.astro';
   .content.flex {
     max-width: none;
     width: 100%;
-  }
-
-  .tagline {
-    font-weight: var(--fw-black);
-    font-size: var(--fs-2);
-    line-height: 1;
   }
 
   /* ── Contact layout ───────────────────────────────── */
