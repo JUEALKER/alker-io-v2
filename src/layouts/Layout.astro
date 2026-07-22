@@ -14,6 +14,9 @@ const {
   description = 'Alker. The first version of what you can almost see. Jürgen Alker.',
 } = Astro.props;
 
+const ogTitle = 'Alker. What if now?';
+const ogDescription = 'The first version of what you can almost see. Jürgen Alker.';
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -36,20 +39,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- SEO -->
     <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:image" content="https://www.alker.io/og-image.jpg" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Alker – What if now?" />
+    <meta property="og:image:alt" content="Alker. What if now?" />
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content="https://www.alker.io/og-image.jpg" />
 
     <!-- Schema.org structured data -->
