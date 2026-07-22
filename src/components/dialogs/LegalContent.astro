@@ -1,0 +1,63 @@
+---
+// Shared Legal Notice content, used by the dialog and the /imprint page
+interface Props {
+  titleTag?: string;
+  titleId?: string;
+}
+const { titleTag = 'span', titleId } = Astro.props;
+const Title = titleTag;
+---
+
+        <Title class="h2" id={titleId}>Legal Notice</Title>
+
+        <strong>Provider</strong>
+        <p>
+          Jürgen Alker<br>
+          Friedensallee 54a<br>
+          22765 Hamburg<br>
+          Germany
+        </p>
+
+        <strong>Contact Options</strong>
+        <p>
+          E-Mail Address: <a href="mailto:mail@alker.io" aria-label="mailto link to mail@alker.io">mail@alker.io</a><br>
+          Phone: +49 40 288 033 09
+        </p>
+
+        <strong>Journalistic-Editorial Services</strong>
+        <p>Responsible for content: Jürgen Alker</p>
+
+        <strong>Company Details</strong>
+        <p>VAT identification number: DE341641992</p>
+
+        <strong>Business area</strong>
+        <p>Consulting</p>
+
+        <strong>Liability and Intellectual Property Rights Information</strong>
+        <p>
+          <strong>Link Disclaimer:</strong> We do not accept any responsibility for
+          or endorse the content of external websites we link to, whether directly
+          or indirectly. The providers of the linked websites are solely responsible
+          for all content presented on their websites and in particular, any damage
+          resulting from the use the information offered on their websites.
+        </p>
+        <p>
+          <strong>Information on legal infringements:</strong> Please notify us if
+          you notice any rights violations on our website. Once notified, we will
+          promptly remove any illegal content or links.
+        </p>
+
+        <strong>Design</strong>
+        <p>
+          <a href="https://br.studio/" target="_blank" aria-label="external link to Bräutigam & Rotermund">BR*Studio</a>
+        </p>
+
+        <strong>Image</strong>
+        <p>
+          <a href="https://sarahbuth.de/" target="_blank" aria-label="external link to Sarah Buth">Sarah Buth</a>
+        </p>
+
+        <strong>Code</strong>
+        <p>
+          <a href="https://jankohlbach.com/" target="_blank" aria-label="external link to Jan Kohlbach">Jan Kohlbach</a>
+        </p>

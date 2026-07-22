@@ -1,0 +1,84 @@
+---
+// Minimal layout for standalone pages (/imprint, /privacy) –
+// no slide system, no nav, just the richtext content on brand background
+import '@styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Alker. The first version of what you can almost see. Jürgen Alker.',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#E3E1DF" />
+
+    <title>{title}</title>
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en" />
+
+    <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <a href="/" class="wordmark h2" aria-label="back to alker.io home">Alker</a>
+      </header>
+
+      <main class="page-main">
+        <div class="richtext richtext--small">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .page {
+    min-height: 100dvh;
+    background-color: var(--c-grey-light);
+    color: var(--c-dark);
+  }
+
+  .page-header {
+    padding: var(--grid-margin);
+  }
+
+  .wordmark {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .page-main {
+    padding: var(--grid-margin);
+    padding-top: 0;
+  }
+
+  .richtext {
+    max-width: 60rem;
+    hyphens: auto;
+  }
+</style>
