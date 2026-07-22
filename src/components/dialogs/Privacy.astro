@@ -123,19 +123,41 @@ import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
   const closeBtn = document.querySelector<HTMLButtonElement>('[data-js="dialog-privacy-close"]');
   const dialog = document.querySelector<HTMLDialogElement>('[data-js="dialog-privacy"]');
 
+  // Deeplink: dialog open/close is mirrored to the URL (/privacy);
+  // direct visits to /privacy are served by the standalone page instead.
+  let viaPush = false;
+
   openBtns?.forEach(a => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       dialog?.showModal();
       window.dispatchEvent(new Event('nav:stop'));
+      history.pushState({ dialog: 'privacy' }, '', '/privacy');
+      viaPush = true;
     });
   });
 
+  const restoreUrl = () => {
+    if (viaPush) {
+      viaPush = false;
+      history.back();
+    }
+  };
+
   closeBtn?.addEventListener('click', () => {
     dialog?.close();
+    restoreUrl();
   });
 
   dialog?.addEventListener('close', () => {
     window.dispatchEvent(new Event('nav:start'));
+    restoreUrl();
+  });
+
+  window.addEventListener('popstate', () => {
+    if (dialog?.open) {
+      viaPush = false;
+      dialog.close();
+    }
   });
 </script>

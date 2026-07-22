@@ -121,19 +121,41 @@ import LegalContent from '@components/dialogs/LegalContent.astro';
   const closeBtn = document.querySelector<HTMLButtonElement>('[data-js="dialog-legal-close"]');
   const dialog = document.querySelector<HTMLDialogElement>('[data-js="dialog-legal"]');
 
+  // Deeplink: dialog open/close is mirrored to the URL (/imprint);
+  // direct visits to /imprint are served by the standalone page instead.
+  let viaPush = false;
+
   openBtns?.forEach(a => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       dialog?.showModal();
       window.dispatchEvent(new Event('nav:stop'));
+      history.pushState({ dialog: 'legal' }, '', '/imprint');
+      viaPush = true;
     });
   });
 
+  const restoreUrl = () => {
+    if (viaPush) {
+      viaPush = false;
+      history.back();
+    }
+  };
+
   closeBtn?.addEventListener('click', () => {
     dialog?.close();
+    restoreUrl();
   });
 
   dialog?.addEventListener('close', () => {
     window.dispatchEvent(new Event('nav:start'));
+    restoreUrl();
+  });
+
+  window.addEventListener('popstate', () => {
+    if (dialog?.open) {
+      viaPush = false;
+      dialog.close();
+    }
   });
 </script>
