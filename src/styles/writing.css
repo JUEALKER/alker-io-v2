@@ -15,6 +15,8 @@
   background: var(--c-grey-light);
   color: var(--c-dark);
   font-family: 'Messina Sans', Helvetica, Arial, sans-serif;
+  /* Reset the deck's giant base size; the prototype cascades from 16px */
+  font-size: 1rem;
   font-weight: 400;
   padding: var(--grid-margin);
   min-height: 100vh;
