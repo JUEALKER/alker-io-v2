@@ -58,10 +58,9 @@
 }
 .writing a:focus-visible { outline: 2px solid var(--c-dark); outline-offset: 3px; }
 
-.writing .page { max-width: var(--column); padding-bottom: clamp(60px, 10vh, 140px); }
-
-/* article pages: column centered, text stays left-aligned; index stays left */
-.writing.is-centered .page { margin-inline: auto; }
+/* reading column centered on every writing page, text left-aligned;
+   the wordmark sits outside the column, pinned to the page edge */
+.writing .page { max-width: var(--column); margin-inline: auto; padding-bottom: clamp(60px, 10vh, 140px); }
 .writing .wordmark { display: block; padding: 10px 0 clamp(48px, 8vw, 110px); }
 .writing .foot { margin-top: clamp(48px, 7vw, 90px); padding-top: 20px; border-top: 1px solid var(--c-dark); }
 

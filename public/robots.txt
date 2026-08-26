@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.alker.io/sitemap-index.xml
+
+# Machine-readable site map and full-text corpus for language models
+# https://www.alker.io/llms.txt
+# https://www.alker.io/llms-full.txt

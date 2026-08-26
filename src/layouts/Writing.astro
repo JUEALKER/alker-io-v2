@@ -13,7 +13,6 @@ interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   publishedTime?: string;
-  centered?: boolean;
   jsonLd?: Record<string, unknown>;
 }
 
@@ -24,7 +23,6 @@ const {
   ogImage = '/og-image.png',
   ogImageAlt,
   publishedTime,
-  centered = false,
   jsonLd,
 } = Astro.props;
 const site = Astro.site!;
@@ -56,10 +54,10 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
 
-  <body class:list={['writing', { 'is-centered': centered }]}>
+  <body class="writing">
     <a class="skip" href="#main">Skip to content</a>
+    <a class="wordmark h2" href="/writing">Writing</a>
     <div class="page">
-      <a class="wordmark h2" href="/writing">Writing</a>
       <main id="main">
         <slot />
       </main>

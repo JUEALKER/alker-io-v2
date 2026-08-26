@@ -53,8 +53,16 @@ const seriesId = seriesDef ? `${new URL('/writing', site).href}#${seriesDef.id}`
 
 const wordCount = post.body ? post.body.trim().split(/\s+/).length : undefined;
 
-const jsonLd = {
-  '@context': 'https://schema.org',
+const breadcrumb = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Alker', item: site.href },
+    { '@type': 'ListItem', position: 2, name: 'Writing', item: new URL('/writing', site).href },
+    { '@type': 'ListItem', position: 3, name: d.title, item: canonical },
+  ],
+};
+
+const article = {
   '@type': 'Article',
   headline: d.title,
   description: d.standfirst,
@@ -81,6 +89,8 @@ const jsonLd = {
     position: d.part,
   }),
 };
+
+const jsonLd = { '@context': 'https://schema.org', '@graph': [article, breadcrumb] };
 ---
 <Writing
   title={`${d.title} — Alker`}
@@ -89,7 +99,6 @@ const jsonLd = {
   ogImage={d.hero ? d.hero.src : '/og-image.png'}
   ogImageAlt={d.heroAlt}
   publishedTime={d.date.toISOString()}
-  centered
   jsonLd={jsonLd}
 >
   <article class="article">
