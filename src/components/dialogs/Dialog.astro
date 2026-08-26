@@ -1,19 +1,36 @@
 ---
-// Privacy Policy dialog
-import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
+/**
+ * Full-screen legal dialog (shared by Legal Notice and Privacy Policy).
+ * Opening mirrors the given URL into the address bar via the History API;
+ * direct visits to that URL are served by the standalone page instead.
+ */
+interface Props {
+  /** wires data-js="dialog-<name>-open/-close" triggers and history.state */
+  name: string;
+  /** path shown while the dialog is open, e.g. /imprint */
+  url: string;
+}
+
+const { name, url } = Astro.props;
 ---
 
-<dialog id="dialog-privacy" data-js="dialog-privacy" aria-modal="true" aria-labelledby="dialog-privacy-title">
+<dialog
+  id={`dialog-${name}`}
+  data-js={`dialog-${name}`}
+  data-dialog-name={name}
+  data-dialog-url={url}
+  aria-modal="true"
+  aria-labelledby={`dialog-${name}-title`}
+>
   <div class="container">
-    <button class="close" autofocus data-js="dialog-privacy-close" aria-label="close dialog">
+    <button class="close" autofocus data-js={`dialog-${name}-close`} aria-label="close dialog">
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M15.281 14.2198C15.3507 14.2895 15.406 14.3722 15.4437 14.4632C15.4814 14.5543 15.5008 14.6519 15.5008 14.7504C15.5008 14.849 15.4814 14.9465 15.4437 15.0376C15.406 15.1286 15.3507 15.2114 15.281 15.281C15.2114 15.3507 15.1286 15.406 15.0376 15.4437C14.9465 15.4814 14.849 15.5008 14.7504 15.5008C14.6519 15.5008 14.5543 15.4814 14.4632 15.4437C14.3722 15.406 14.2895 15.3507 14.2198 15.281L8.00042 9.06073L1.78104 15.281C1.64031 15.4218 1.44944 15.5008 1.25042 15.5008C1.05139 15.5008 0.860523 15.4218 0.719792 15.281C0.579062 15.1403 0.5 14.9494 0.5 14.7504C0.5 14.5514 0.579062 14.3605 0.719792 14.2198L6.9401 8.00042L0.719792 1.78104C0.579062 1.64031 0.5 1.44944 0.5 1.25042C0.5 1.05139 0.579062 0.860523 0.719792 0.719792C0.860523 0.579062 1.05139 0.5 1.25042 0.5C1.44944 0.5 1.64031 0.579062 1.78104 0.719792L8.00042 6.9401L14.2198 0.719792C14.3605 0.579062 14.5514 0.5 14.7504 0.5C14.9494 0.5 15.1403 0.579062 15.281 0.719792C15.4218 0.860523 15.5008 1.05139 15.5008 1.25042C15.5008 1.44944 15.4218 1.64031 15.281 1.78104L9.06073 8.00042L15.281 14.2198Z" fill="white"/>
       </svg>
     </button>
     <div class="inner">
-
       <div class="richtext richtext--small">
-        <PrivacyContent titleId="dialog-privacy-title" />
+        <slot />
       </div>
     </div>
   </div>
@@ -112,60 +129,61 @@ import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
     aspect-ratio: 1 / 1;
   }
 
-  :global(.richtext) {
+  .richtext {
     max-width: 60rem;
     hyphens: auto;
   }
 </style>
 
 <script>
-  const openBtns = document.querySelectorAll<HTMLButtonElement>('[data-js="dialog-privacy-open"]');
-  const closeBtn = document.querySelector<HTMLButtonElement>('[data-js="dialog-privacy-close"]');
-  const dialog = document.querySelector<HTMLDialogElement>('[data-js="dialog-privacy"]');
+  document.querySelectorAll<HTMLDialogElement>('dialog[data-dialog-url]').forEach((dialog) => {
+    const name = dialog.dataset.dialogName!;
+    const url = dialog.dataset.dialogUrl!;
+    const openBtns = document.querySelectorAll<HTMLButtonElement>(`[data-js="dialog-${name}-open"]`);
+    const closeBtn = dialog.querySelector<HTMLButtonElement>(`[data-js="dialog-${name}-close"]`);
 
-  // Deeplink: dialog open/close is mirrored to the URL (/privacy);
-  // direct visits to /privacy are served by the standalone page instead.
-  let viaPush = false;
+    let viaPush = false;
 
-  openBtns?.forEach(a => {
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      dialog?.showModal();
-      window.dispatchEvent(new Event('nav:stop'));
-      // A dialog opened from inside another dialog replaces that entry,
-      // so one back always returns to the deck and no dialog URL lingers.
-      if (history.state?.dialog) {
-        history.replaceState({ dialog: 'privacy' }, '', '/privacy');
-      } else {
-        history.pushState({ dialog: 'privacy' }, '', '/privacy');
-      }
-      viaPush = true;
+    openBtns.forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        dialog.showModal();
+        window.dispatchEvent(new Event('nav:stop'));
+        // A dialog opened from inside another dialog replaces that entry,
+        // so one back always returns to the deck and no dialog URL lingers.
+        if (history.state?.dialog) {
+          history.replaceState({ dialog: name }, '', url);
+        } else {
+          history.pushState({ dialog: name }, '', url);
+        }
+        viaPush = true;
+      });
     });
-  });
 
-  const restoreUrl = () => {
-    if (viaPush) {
-      viaPush = false;
-      if (history.state?.dialog === 'privacy') {
-        history.back();
+    const restoreUrl = () => {
+      if (viaPush) {
+        viaPush = false;
+        if (history.state?.dialog === name) {
+          history.back();
+        }
       }
-    }
-  };
+    };
 
-  closeBtn?.addEventListener('click', () => {
-    dialog?.close();
-    restoreUrl();
-  });
-
-  dialog?.addEventListener('close', () => {
-    window.dispatchEvent(new Event('nav:start'));
-    restoreUrl();
-  });
-
-  window.addEventListener('popstate', () => {
-    if (dialog?.open && history.state?.dialog !== 'privacy') {
-      viaPush = false;
+    closeBtn?.addEventListener('click', () => {
       dialog.close();
-    }
+      restoreUrl();
+    });
+
+    dialog.addEventListener('close', () => {
+      window.dispatchEvent(new Event('nav:start'));
+      restoreUrl();
+    });
+
+    window.addEventListener('popstate', () => {
+      if (dialog.open && history.state?.dialog !== name) {
+        viaPush = false;
+        dialog.close();
+      }
+    });
   });
 </script>

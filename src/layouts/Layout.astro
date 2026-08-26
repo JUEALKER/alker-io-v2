@@ -1,7 +1,9 @@
 ---
+import Head from '@components/Head.astro';
 import Nav from '@components/Nav.astro';
-import LegalDialog from '@components/dialogs/Legal.astro';
-import PrivacyDialog from '@components/dialogs/Privacy.astro';
+import Dialog from '@components/dialogs/Dialog.astro';
+import LegalContent from '@components/dialogs/LegalContent.astro';
+import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
 import '@styles/global.css';
 
 interface Props {
@@ -40,30 +42,13 @@ const jsonLd = {
     ],
   },
 };
-// Vercel preview deployments must never be indexed
-const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#E3E1DF" />
+    <Head title={title} description={description} />
 
-    <title>{title}</title>
-
-    <!-- Favicons -->
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="canonical" href={canonicalURL} />
-    {noindex && <meta name="robots" content="noindex" />}
-
-    <!-- SEO -->
-    <meta name="description" content={description} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:image" content={ogImageURL} />
@@ -83,19 +68,9 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     <!-- Schema.org structured data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Font preloads -->
-    <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
-
-    <!-- Analytics preconnect -->
-    <link rel="preconnect" href="https://cdn.usefathom.com" />
-
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content="wA40tQyeSUpXamkuNwmL5bw8ANL0ppGiejiwjpwefgM" />
 
-    <!-- Fathom Analytics -->
-    <script src="https://cdn.usefathom.com/script.js" data-site="UCAARVFU" defer></script>
   </head>
 
   <body>
@@ -113,8 +88,12 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
       <Nav />
     </div>
 
-    <LegalDialog />
-    <PrivacyDialog />
+    <Dialog name="legal" url="/imprint">
+      <LegalContent titleId="dialog-legal-title" />
+    </Dialog>
+    <Dialog name="privacy" url="/privacy">
+      <PrivacyContent titleId="dialog-privacy-title" />
+    </Dialog>
   </body>
 </html>
 

@@ -1,6 +1,7 @@
 ---
 // Minimal layout for standalone pages (/imprint, /privacy) –
 // no slide system, no nav, just the richtext content on brand background
+import Head from '@components/Head.astro';
 import '@styles/global.css';
 
 interface Props {
@@ -13,35 +14,18 @@ const {
   description = 'Alker. The first version of what you can almost see. Jürgen Alker.',
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-// Vercel preview deployments must never be indexed
-const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#E3E1DF" />
+    <Head title={title} description={description} />
 
-    <title>{title}</title>
-
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="canonical" href={canonicalURL} />
-    {noindex && <meta name="robots" content="noindex" />}
-
-    <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en" />
 
-    <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
   </head>
 
   <body>

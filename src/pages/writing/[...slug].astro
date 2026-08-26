@@ -1,12 +1,13 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Image } from 'astro:assets';
+import { getPublishedPosts } from '../../lib/posts';
 import Writing from '../../layouts/Writing.astro';
+import Figure from '../../components/Figure.astro';
 import SeriesNav from '../../components/SeriesNav.astro';
 import Subscribe from '../../components/Subscribe.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  const posts = await getPublishedPosts();
 
   // Collection-wide checks that Zod cannot do per entry; a violation
   // must kill the build, not surface at runtime.
@@ -108,11 +109,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [article, breadcrum
     <div class="meta label">{month}</div>
 
     {d.hero && d.heroAlt && (
-      <figure>
-        <Image src={d.hero} alt={d.heroAlt} widths={[640, 720, 1024, 1600]}
-               sizes="(min-width: 46rem) 44rem, calc(100vw - 20px)" format="webp" quality={80}
-               loading="eager" fetchpriority="high" />
-      </figure>
+      <Figure src={d.hero} alt={d.heroAlt} loading="eager" fetchpriority="high" />
     )}
 
     {d.contents && d.contents.length > 0 && (

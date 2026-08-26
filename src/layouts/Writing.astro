@@ -3,6 +3,7 @@
  * Base layout for every page under /writing.
  * One column, no deck, no overlay. The wordmark top left returns to the deck.
  */
+import Head from '@components/Head.astro';
 import '../styles/global.css';   // existing global tokens and fonts
 import '../styles/writing.css';
 
@@ -28,24 +29,11 @@ const {
   jsonLd,
 } = Astro.props;
 const site = Astro.site!;
-// Vercel preview deployments must never be indexed
-const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
 ---
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
-    <meta name="theme-color" content="#E3E1DF" />
+    <Head title={title} description={description} canonical={canonical} />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
@@ -56,10 +44,6 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {ogType === 'article' && <meta property="article:author" content="Jürgen Alker" />}
     <meta name="twitter:card" content="summary_large_image" />
-
-    <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
 
     <link rel="alternate" type="application/rss+xml" title="Alker — Writing" href={new URL('/writing/rss.xml', site).href} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { getPublishedPosts } from '../lib/posts';
 
 /**
  * Companion to /llms.txt: the full text of every essay in one plain-text
@@ -7,8 +8,7 @@ import { getCollection } from 'astro:content';
  */
 export async function GET(context: { site: URL }) {
   const site = context.site.href.replace(/\/$/, '');
-  const posts = (await getCollection('writing', ({ data }) => !data.draft))
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const posts = (await getPublishedPosts());
 
   const seriesDefs = await getCollection('series');
   const partCount = new Map<string, number>();

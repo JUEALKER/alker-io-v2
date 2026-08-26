@@ -1,10 +1,9 @@
-import { getCollection } from 'astro:content';
+import { getPublishedPosts } from '../lib/posts';
 
 /** Plain-text map of the site for language models. */
 export async function GET(context: { site: URL }) {
   const site = context.site.href.replace(/\/$/, '');
-  const posts = (await getCollection('writing', ({ data }) => !data.draft))
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const posts = (await getPublishedPosts());
 
   const body = `# Alker
 

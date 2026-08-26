@@ -1,0 +1,43 @@
+---
+/**
+ * Shared head invariants for every layout: charset/viewport/theme-color,
+ * title, favicons, canonical, the preview-noindex guard, description,
+ * font preloads and analytics. Layout-specific tags (OG blocks, JSON-LD,
+ * feeds) stay in the layouts.
+ */
+interface Props {
+  title: string;
+  description: string;
+  /** canonical URL override; defaults to the current pathname on Astro.site */
+  canonical?: string;
+}
+
+const { title, description, canonical } = Astro.props;
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+// Vercel preview deployments must never be indexed
+const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#E3E1DF" />
+
+<title>{title}</title>
+
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="canonical" href={canonicalURL} />
+{noindex && <meta name="robots" content="noindex" />}
+
+<meta name="description" content={description} />
+
+<link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Fathom Analytics -->
+<link rel="preconnect" href="https://cdn.usefathom.com" />
+<script src="https://cdn.usefathom.com/script.js" data-site="UCAARVFU" defer is:inline></script>

@@ -1,120 +1,44 @@
 ---
-// No props – nav structure is fixed
+// The slide inventory: one entry per nav group, slides in deck order.
+// Must mirror the <Slide id=...> sequence in src/pages/index.astro —
+// markup, aria labels and the per-group bar widths all derive from it.
+const sections = [
+  { title: 'Alker', aria: 'intro', grow: 3, growDesktop: 3, slides: ['intro', 'intro-1', 'intro-2'] },
+  { title: 'About', aria: 'about me', grow: 2, growDesktop: 2, slides: ['about', 'about-1'] },
+  {
+    title: 'Principles',
+    aria: 'principles',
+    grow: 4,
+    growDesktop: 9,
+    slides: ['principles', 'principles-1', 'principles-2', 'principles-3', 'principles-4',
+             'principles-5', 'principles-6', 'principles-7', 'principles-8'],
+  },
+  { title: 'Writing', aria: 'writing', grow: 1, growDesktop: 1, slides: ['writing'] },
+  { title: 'Contact', aria: 'contact', grow: 1, growDesktop: 1, slides: ['contact'] },
+];
 ---
 
 <nav class="nav" data-js="nav" role="navigation" aria-label="Page sections">
   <div class="container list">
-
-    <div class="section">
-      <span class="title">Alker</span>
-      <ul>
-        <li>
-          <a href="#intro" aria-label="to intro" data-js="nav-link" class="is-active">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#intro-1" aria-label="to intro part 2" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#intro-2" aria-label="to intro part 3" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <span class="title">About</span>
-      <ul>
-        <li>
-          <a href="#about" aria-label="to about me" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#about-1" aria-label="to about me part 2" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <span class="title">Principles</span>
-      <ul>
-        <li>
-          <a href="#principles" aria-label="to principles" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-1" aria-label="to principles part 2" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-2" aria-label="to principles part 3" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-3" aria-label="to principles part 4" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-4" aria-label="to principles part 5" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-5" aria-label="to principles part 6" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-6" aria-label="to principles part 7" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-7" aria-label="to principles part 8" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#principles-8" aria-label="to principles part 9" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <span class="title">Writing</span>
-      <ul>
-        <li>
-          <a href="#writing" aria-label="to writing" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <span class="title">Contact</span>
-      <ul>
-        <li>
-          <a href="#contact" aria-label="to contact" data-js="nav-link">
-            <span class="bar"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
+    {sections.map((section) => (
+      <div class="section" style={`--grow: ${section.grow}; --grow-desktop: ${section.growDesktop}`}>
+        <span class="title">{section.title}</span>
+        <ul>
+          {section.slides.map((id, i) => (
+            <li>
+              <a
+                href={`#${id}`}
+                aria-label={`to ${section.aria}${i > 0 ? ` part ${i + 1}` : ''}`}
+                data-js="nav-link"
+                class:list={[{ 'is-active': id === 'intro' }]}
+              >
+                <span class="bar"></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </div>
 </nav>
 
@@ -135,13 +59,8 @@
 
   .section {
     position: relative;
+    flex-grow: var(--grow);
   }
-
-  .section:nth-child(1) { flex-grow: 3; }
-  .section:nth-child(2) { flex-grow: 2; }
-  .section:nth-child(3) { flex-grow: 4; }
-  .section:nth-child(4) { flex-grow: 1; }
-  .section:nth-child(5) { flex-grow: 1; }
 
   .title {
     position: absolute;
@@ -249,9 +168,7 @@
   }
 
   @media (min-width: 768px) {
-    .section:nth-child(1) { flex-grow: 3; }
-    .section:nth-child(2) { flex-grow: 2; }
-    .section:nth-child(3) { flex-grow: 9; }
+    .section { flex-grow: var(--grow-desktop); }
 
     ul {
       gap: 0.25rem;
@@ -293,13 +210,10 @@
   const dialogLegal   = document.querySelector<HTMLDialogElement>('[data-js="dialog-legal"]');
   const dialogPrivacy = document.querySelector<HTMLDialogElement>('[data-js="dialog-privacy"]');
 
-  const colorMap: Record<string, string> = {
-    light: '#FFFFFF',
-    dark: '#000000',
-    primary: '#DCFF00',
-    'grey-light': '#E3E1DF',
-    'grey-dark': '#616161',
-  };
+  // theme-color follows the slide background; hex values come from the
+  // --c-* design tokens so a palette change needs no second edit here
+  const rootStyles = getComputedStyle(document.documentElement);
+  const tokenColor = (name: string) => rootStyles.getPropertyValue(`--c-${name}`).trim();
 
   let timer: ReturnType<typeof setInterval>;
   let isThrottled = false;
@@ -331,7 +245,7 @@
       layout.dataset.colorBg = bg;
 
       const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-      themeColor?.setAttribute('content', colorMap[bg] ?? '#DCFF00');
+      themeColor?.setAttribute('content', tokenColor(bg) || '#DCFF00');
 
       if (bg === 'grey-dark') {
         nav?.classList.add('is-dark');
@@ -386,12 +300,9 @@
     if (dialogLegal?.open || dialogPrivacy?.open) return;
     if (isThrottled) return;
 
-    if (Math.abs(e.deltaX) > 20) {
-      e.deltaX < 0 ? next() : prev();
-      isThrottled = true;
-      setTimeout(() => { isThrottled = false; }, 1000);
-    } else if (Math.abs(e.deltaY) > 20) {
-      e.deltaY < 0 ? next() : prev();
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) > 20) {
+      delta < 0 ? next() : prev();
       isThrottled = true;
       setTimeout(() => { isThrottled = false; }, 1000);
     }
@@ -414,6 +325,12 @@
 
   window.addEventListener('nav:start', () => {
     goTo(navLinks[getActiveIndex()]);
+  });
+
+  // Pause the auto-advance while the tab is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) clearInterval(timer);
+    else resetTimer();
   });
 
   // Activate first slide on init

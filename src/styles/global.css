@@ -59,6 +59,8 @@
   --fs-4: var(--fs-3);
   --fs-5: var(--fs-3);
   --fs-6: var(--fs-3);
+  /* entry/list headline scale, shared by the writing index and the deck's writing slide */
+  --fs-entry: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
 
   /* Font weights */
   --fw-normal: 400;
@@ -141,10 +143,6 @@ svg {
   max-width: 100%;
 }
 
-canvas {
-  display: block;
-}
-
 input,
 button,
 textarea,
@@ -214,12 +212,6 @@ body {
 .container {
   padding-inline: var(--grid-margin);
   margin-inline: auto;
-}
-
-.grid {
-  display: grid;
-  gap: var(--grid-gutter);
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
 }
 
 /* ─────────────────────────────────────────────

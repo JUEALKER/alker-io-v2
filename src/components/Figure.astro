@@ -1,8 +1,16 @@
 ---
 import { Image } from 'astro:assets';
-interface Props { src: ImageMetadata; alt: string; }
-const { src, alt } = Astro.props;
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** the article hero is the LCP element and loads eager/high */
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'auto';
+}
+
+const { src, alt, loading = 'lazy', fetchpriority = 'auto' } = Astro.props;
 ---
 <figure>
-  <Image src={src} alt={alt} widths={[640, 720, 1024, 1600]} sizes="(min-width: 46rem) 44rem, calc(100vw - 20px)" format="webp" quality={80} />
+  <Image src={src} alt={alt} widths={[640, 720, 1024, 1600]} sizes="(min-width: 46rem) 44rem, calc(100vw - 20px)" format="webp" quality={80} loading={loading} fetchpriority={fetchpriority} />
 </figure>
