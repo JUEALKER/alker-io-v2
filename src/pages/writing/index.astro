@@ -21,7 +21,7 @@ const grouped = seriesDefs
 const singles = posts.filter((p) => !p.data.series);
 
 const month = (d: Date) =>
-  d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 const site = Astro.site!;
 const canonical = new URL('/writing', site).href;
@@ -71,6 +71,7 @@ const jsonLd = {
 ---
 <Writing
   title="Writing — Alker"
+  ogType="website"
   description="Essays on brands, players and company building in sport and culture."
   canonical={canonical}
   jsonLd={jsonLd}

@@ -3,7 +3,7 @@
 import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
 ---
 
-<dialog id="dialog-privacy" data-js="dialog-privacy" data-lenis-prevent aria-modal="true" aria-labelledby="dialog-privacy-title">
+<dialog id="dialog-privacy" data-js="dialog-privacy" aria-modal="true" aria-labelledby="dialog-privacy-title">
   <div class="container">
     <button class="close" autofocus data-js="dialog-privacy-close" aria-label="close dialog">
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,7 +132,13 @@ import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
       e.preventDefault();
       dialog?.showModal();
       window.dispatchEvent(new Event('nav:stop'));
-      history.pushState({ dialog: 'privacy' }, '', '/privacy');
+      // A dialog opened from inside another dialog replaces that entry,
+      // so one back always returns to the deck and no dialog URL lingers.
+      if (history.state?.dialog) {
+        history.replaceState({ dialog: 'privacy' }, '', '/privacy');
+      } else {
+        history.pushState({ dialog: 'privacy' }, '', '/privacy');
+      }
       viaPush = true;
     });
   });
@@ -140,7 +146,9 @@ import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
   const restoreUrl = () => {
     if (viaPush) {
       viaPush = false;
-      history.back();
+      if (history.state?.dialog === 'privacy') {
+        history.back();
+      }
     }
   };
 
@@ -155,7 +163,7 @@ import PrivacyContent from '@components/dialogs/PrivacyContent.astro';
   });
 
   window.addEventListener('popstate', () => {
-    if (dialog?.open) {
+    if (dialog?.open && history.state?.dialog !== 'privacy') {
       viaPush = false;
       dialog.close();
     }

@@ -5,7 +5,7 @@ interface Props {
   seriesSlug?: string;
   seriesTitle?: string;
 }
-const { prev, next, seriesTitle } = Astro.props;
+const { prev, next, seriesSlug, seriesTitle } = Astro.props;
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 {(prev || next || seriesTitle) && (
@@ -21,7 +21,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       </a>
     )}
     {seriesTitle && (
-      <a href="/writing"><span>All parts</span><span>{seriesTitle} &rarr;</span></a>
+      <a href={seriesSlug ? `/writing#${seriesSlug}` : '/writing'}><span>All parts</span><span>{seriesTitle} &rarr;</span></a>
     )}
   </nav>
 )}

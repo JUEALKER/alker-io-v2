@@ -3,7 +3,7 @@
 import LegalContent from '@components/dialogs/LegalContent.astro';
 ---
 
-<dialog id="dialog-legal" data-js="dialog-legal" data-lenis-prevent aria-modal="true" aria-labelledby="dialog-legal-title">
+<dialog id="dialog-legal" data-js="dialog-legal" aria-modal="true" aria-labelledby="dialog-legal-title">
   <div class="container">
     <button class="close" autofocus data-js="dialog-legal-close" aria-label="close dialog">
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +130,13 @@ import LegalContent from '@components/dialogs/LegalContent.astro';
       e.preventDefault();
       dialog?.showModal();
       window.dispatchEvent(new Event('nav:stop'));
-      history.pushState({ dialog: 'legal' }, '', '/imprint');
+      // A dialog opened from inside another dialog replaces that entry,
+      // so one back always returns to the deck and no dialog URL lingers.
+      if (history.state?.dialog) {
+        history.replaceState({ dialog: 'legal' }, '', '/imprint');
+      } else {
+        history.pushState({ dialog: 'legal' }, '', '/imprint');
+      }
       viaPush = true;
     });
   });
@@ -138,7 +144,9 @@ import LegalContent from '@components/dialogs/LegalContent.astro';
   const restoreUrl = () => {
     if (viaPush) {
       viaPush = false;
-      history.back();
+      if (history.state?.dialog === 'legal') {
+        history.back();
+      }
     }
   };
 
@@ -153,7 +161,7 @@ import LegalContent from '@components/dialogs/LegalContent.astro';
   });
 
   window.addEventListener('popstate', () => {
-    if (dialog?.open) {
+    if (dialog?.open && history.state?.dialog !== 'legal') {
       viaPush = false;
       dialog.close();
     }

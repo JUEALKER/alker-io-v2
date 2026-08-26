@@ -44,7 +44,7 @@ const toNav = (p: any) => (p ? { slug: p.id, title: p.data.title, part: p.data.p
 const seriesDef = d.series ? (await getCollection('series')).find((s) => s.id === d.series) : undefined;
 
 const pad = (n?: number) => (n === undefined ? '' : String(n).padStart(2, '0'));
-const month = d.date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+const month = d.date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const pretitle = seriesDef ? `${seriesDef.data.title} · ${pad(d.part)}` : month;
 
 const site = Astro.site!;
@@ -127,6 +127,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [article, breadcrum
       prev={toNav(siblings[i - 1])}
       next={toNav(siblings[i + 1])}
       seriesTitle={i === siblings.length - 1 ? seriesDef?.data.title : undefined}
+      seriesSlug={seriesDef?.id}
     />
     <Subscribe />
   </article>

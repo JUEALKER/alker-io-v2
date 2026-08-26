@@ -366,6 +366,7 @@
 
   // Keyboard navigation
   window.addEventListener('keydown', (e) => {
+    if (dialogLegal?.open || dialogPrivacy?.open) return;
     if (e.key === 'ArrowLeft') prev();
     if (e.key === 'ArrowRight') next();
   });

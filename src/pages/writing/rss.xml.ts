@@ -9,7 +9,7 @@ export async function GET(context: { site: URL }) {
   // Full-text feed: body markdown rendered to HTML. Image references are
   // stripped; their hashed asset URLs only exist per build.
   const toHtml = (body: string) =>
-    marked.parse(body.replace(/!\[[^\]]*\]\([^)]*\)/g, ''), { async: false }) as string;
+    marked.parse(body.replace(/!\[[^\]]*\]\([^)]*\)(\s*\n\*[^*\n][^\n]*\*)?/g, ''), { async: false }) as string;
 
   return rss({
     title: 'Alker — Writing',

@@ -13,6 +13,7 @@ interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   publishedTime?: string;
+  ogType?: string;
   jsonLd?: Record<string, unknown>;
 }
 
@@ -23,6 +24,7 @@ const {
   ogImage = '/og-image.png',
   ogImageAlt,
   publishedTime,
+  ogType = 'article',
   jsonLd,
 } = Astro.props;
 const site = Astro.site!;
@@ -35,19 +37,24 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#E3E1DF" />
 
-    <meta property="og:type" content="article" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, site).href} />
     {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
-    <meta property="article:author" content="Jürgen Alker" />
+    {ogType === 'article' && <meta property="article:author" content="Jürgen Alker" />}
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />

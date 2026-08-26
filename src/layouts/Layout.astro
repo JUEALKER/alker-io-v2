@@ -18,6 +18,28 @@ const ogTitle = 'Alker. What if now?';
 const ogDescription = 'The first version of what you can almost see. Jürgen Alker.';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL('/og-image.png', Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Alker',
+  description: 'The first version of what you can almost see. Jürgen Alker.',
+  url: Astro.site!.href,
+  sameAs: [
+    'https://www.linkedin.com/in/juergenalker/',
+    'https://www.instagram.com/alker/',
+  ],
+  founder: {
+    '@type': 'Person',
+    name: 'Jürgen Alker',
+    email: 'j@alker.io',
+    sameAs: [
+      'https://www.linkedin.com/in/juergenalker/',
+      'https://www.instagram.com/alker/',
+    ],
+  },
+};
 // Vercel preview deployments must never be indexed
 const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
 ---
@@ -44,7 +66,7 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     <meta name="description" content={description} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
-    <meta property="og:image" content="https://www.alker.io/og-image.png" />
+    <meta property="og:image" content={ogImageURL} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en" />
@@ -56,31 +78,10 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
-    <meta name="twitter:image" content="https://www.alker.io/og-image.png" />
+    <meta name="twitter:image" content={ogImageURL} />
 
     <!-- Schema.org structured data -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Alker",
-        "description": "The first version of what you can almost see. Jürgen Alker.",
-        "url": "https://www.alker.io",
-        "sameAs": [
-          "https://www.linkedin.com/in/juergenalker/",
-          "https://www.instagram.com/alker/"
-        ],
-        "founder": {
-          "@type": "Person",
-          "name": "Jürgen Alker",
-          "email": "j@alker.io",
-          "sameAs": [
-            "https://www.linkedin.com/in/juergenalker/",
-            "https://www.instagram.com/alker/"
-          ]
-        }
-      }
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Font preloads -->
     <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
@@ -154,16 +155,6 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
 </style>
 
 <script>
-  import Lenis from 'lenis';
-
-  // Smooth scroll (progressive enhancement)
-  const lenis = new Lenis();
-  const raf = (time: number) => {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  };
-  requestAnimationFrame(raf);
-
   // Console easter egg (credit to Jan Kohlbach)
   console.log(
     '%c ',

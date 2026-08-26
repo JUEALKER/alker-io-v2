@@ -10,9 +10,20 @@ export async function GET(context: { site: URL }) {
   const posts = (await getCollection('writing', ({ data }) => !data.draft))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+  const seriesDefs = await getCollection('series');
+  const partCount = new Map<string, number>();
+  for (const p of posts) {
+    if (p.data.series) partCount.set(p.data.series, (partCount.get(p.data.series) ?? 0) + 1);
+  }
+  const seriesLine = (p: (typeof posts)[number]) => {
+    if (!p.data.series) return null;
+    const def = seriesDefs.find((s) => s.id === p.data.series);
+    return `Series: ${def?.data.title ?? p.data.series}, part ${p.data.part} of ${partCount.get(p.data.series)}`;
+  };
+
   const clean = (body: string) =>
     body
-      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)(\s*\n\*[^*\n][^\n]*\*)?/g, '')
       .replace(/\n{3,}/g, '\n\n')
       .trim();
 
@@ -23,7 +34,7 @@ export async function GET(context: { site: URL }) {
       `Source: ${site}/writing/${p.id}`,
       `Published: ${p.data.date.toISOString().slice(0, 10)}`,
       `Author: Jürgen Alker`,
-      p.data.series ? `Series: Beyond ninety minutes, part ${p.data.part} of 10` : null,
+      seriesLine(p),
       '',
       p.data.standfirst,
     ]

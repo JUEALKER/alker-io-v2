@@ -1,6 +1,6 @@
+import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import mdx from '@astrojs/mdx';
 
 // Site URL: production and local builds use the canonical domain.
 // On Vercel preview deployments the deployment's own URL is used so
@@ -12,15 +12,32 @@ const site =
     ? `https://${process.env.VERCEL_BRANCH_URL ?? process.env.VERCEL_URL}`
     : 'https://www.alker.io');
 
+const articleDates = {};
+try {
+  for (const slug of readdirSync('src/content/writing')) {
+    const f = `src/content/writing/${slug}/index.md`;
+    if (!existsSync(f)) continue;
+    const m = readFileSync(f, 'utf8').match(/^date:\s*(\d{4}-\d{2}-\d{2})/m);
+    if (m) articleDates[slug] = m[1];
+  }
+} catch { /* content dir missing: no article lastmod */ }
+
 export default defineConfig({
   site,
   compressHTML: true,
   integrations: [
-    mdx(),
     sitemap({
       changefreq: 'monthly',
       priority: 1.0,
-      lastmod: new Date(),
+      // lastmod per article from its frontmatter date; pages without a
+      // known date carry none instead of a meaningless build timestamp
+      serialize(item) {
+        const m = item.url.match(/\/writing\/([^/]+)\/?$/);
+        const date = m ? articleDates[m[1]] : undefined;
+        if (date) item.lastmod = date;
+        else delete item.lastmod;
+        return item;
+      },
     }),
   ],
   image: {

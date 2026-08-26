@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const writing = defineCollection({
-  loader: glob({ pattern: '**/index.{md,mdx}', base: './src/content/writing' }),
+  loader: glob({ pattern: '**/index.md', base: './src/content/writing' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
