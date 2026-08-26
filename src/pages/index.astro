@@ -1,6 +1,11 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import Slide from '@components/Slide.astro';
+
+const latestPosts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <Layout>
@@ -204,13 +209,16 @@ import Slide from '@components/Slide.astro';
       <h2 class="title h2">Writing</h2>
     </div>
     <div class="content">
-      <p>
-        Ten pieces on footballers as company builders.
-      </p>
+      <ul class="writing-list">
+        {latestPosts.map((p) => (
+          <li>
+            <a href={`/writing/${p.id}`}>{p.data.title}</a>
+          </li>
+        ))}
+      </ul>
       <br />
-      <p class="writing-cta">Read &rarr;</p>
+      <p class="writing-cta"><a href="/writing">More &rarr;</a></p>
     </div>
-    <a class="slide-link" href="/writing" aria-label="Read the writing section"></a>
   </Slide>
 
   <!-- ── Contact ───────────────────────────────────── -->
@@ -276,12 +284,21 @@ import Slide from '@components/Slide.astro';
 
 <style>
   /* ── Writing slide ────────────────────────────────── */
-  /* The whole slide is one link to /writing; the legal trigger
-     buttons sit above it (z-index 5 in Trigger.astro). */
-  .slide-link {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
+  .writing-list {
+    list-style: none;
+  }
+
+  .writing-list a {
+    display: inline-block;
+    font-weight: var(--fw-black);
+    font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+    line-height: 1.15;
+    text-decoration: none;
+    transition: color 0.4s var(--ease-in-out-custom);
+  }
+
+  .writing-list a:hover {
+    color: var(--c-grey-dark);
   }
 
   .writing-cta {
@@ -290,6 +307,10 @@ import Slide from '@components/Slide.astro';
     font-size: var(--fs-3);
     border-top: 1px solid var(--c-dark);
     padding-top: 0.75rem;
+  }
+
+  .writing-cta a {
+    text-decoration: none;
   }
 
   /* ── Slide content layout ─────────────────────────── */
