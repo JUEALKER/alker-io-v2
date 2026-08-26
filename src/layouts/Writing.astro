@@ -50,6 +50,10 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     <meta property="article:author" content="Jürgen Alker" />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <link rel="preload" href="/fonts/MessinaSans-book.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MessinaSans-semibold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MessinaSansCondensed-black.woff2" as="font" type="font/woff2" crossorigin />
+
     <link rel="alternate" type="application/rss+xml" title="Alker — Writing" href={new URL('/writing/rss.xml', site).href} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
