@@ -59,6 +59,9 @@
 .writing a:focus-visible { outline: 2px solid var(--c-dark); outline-offset: 3px; }
 
 .writing .page { max-width: var(--column); padding-bottom: clamp(60px, 10vh, 140px); }
+
+/* article pages: column centered, text stays left-aligned; index stays left */
+.writing.is-centered .page { margin-inline: auto; }
 .writing .wordmark { display: block; padding: 10px 0 clamp(48px, 8vw, 110px); }
 .writing .foot { margin-top: clamp(48px, 7vw, 90px); padding-top: 20px; border-top: 1px solid var(--c-dark); }
 
@@ -105,6 +108,18 @@
 .prose figure img,
 .prose img,
 .article > figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+
+/* former Substack galleries land as one paragraph holding several
+   images; render those as a two-column grid instead of a stack */
+.prose p:has(> img + img) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+@media (max-width: 559px) {
+  .prose p:has(> img + img) { grid-template-columns: 1fr; }
+}
 
 /* italic caption line directly under an image */
 .prose p > img + em, .prose img + em { display: block; margin-top: 8px; font-size: 0.875rem; }

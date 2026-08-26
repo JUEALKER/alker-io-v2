@@ -14,7 +14,8 @@ See it. Build it. Back it.
 ## Site
 - ${site}/ — about, principles, contact
 - ${site}/writing — all essays
-- ${site}/writing/rss.xml — RSS feed
+- ${site}/writing/rss.xml — RSS feed (full text)
+- ${site}/llms-full.txt — full text of all essays in one file
 
 ## Writing
 ${posts

@@ -51,6 +51,8 @@ const site = Astro.site!;
 const canonical = new URL(`/writing/${post.id}`, site).href;
 const seriesId = seriesDef ? `${new URL('/writing', site).href}#${seriesDef.id}` : undefined;
 
+const wordCount = post.body ? post.body.trim().split(/\s+/).length : undefined;
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -61,6 +63,8 @@ const jsonLd = {
   mainEntityOfPage: canonical,
   url: canonical,
   inLanguage: 'en',
+  ...(wordCount && { wordCount }),
+  ...(d.hero && { image: new URL(d.hero.src, site).href }),
   author: {
     '@type': 'Person',
     name: 'Jürgen Alker',
@@ -82,7 +86,10 @@ const jsonLd = {
   title={`${d.title} — Alker`}
   description={d.standfirst}
   canonical={canonical}
-  ogImage={d.hero ? d.hero.src : '/og-default.png'}
+  ogImage={d.hero ? d.hero.src : '/og-image.png'}
+  ogImageAlt={d.heroAlt}
+  publishedTime={d.date.toISOString()}
+  centered
   jsonLd={jsonLd}
 >
   <article class="article">

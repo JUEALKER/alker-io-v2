@@ -11,10 +11,22 @@ interface Props {
   description: string;
   canonical: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  publishedTime?: string;
+  centered?: boolean;
   jsonLd?: Record<string, unknown>;
 }
 
-const { title, description, canonical, ogImage = '/og-image.png', jsonLd } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogImage = '/og-image.png',
+  ogImageAlt,
+  publishedTime,
+  centered = false,
+  jsonLd,
+} = Astro.props;
 const site = Astro.site!;
 // Vercel preview deployments must never be indexed
 const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
@@ -35,13 +47,16 @@ const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'producti
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, site).href} />
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    <meta property="article:author" content="Jürgen Alker" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="alternate" type="application/rss+xml" title="Alker — Writing" href={new URL('/writing/rss.xml', site).href} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
 
-  <body class="writing">
+  <body class:list={['writing', { 'is-centered': centered }]}>
     <a class="skip" href="#main">Skip to content</a>
     <div class="page">
       <a class="wordmark h2" href="/writing">Writing</a>
