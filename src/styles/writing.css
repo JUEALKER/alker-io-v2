@@ -56,7 +56,7 @@
 }
 .writing a:focus-visible { outline: 2px solid var(--c-dark); outline-offset: 3px; }
 
-.writing .page { max-width: var(--column); margin: 0 auto; padding-bottom: clamp(60px, 10vh, 140px); }
+.writing .page { max-width: var(--column); padding-bottom: clamp(60px, 10vh, 140px); }
 .writing .wordmark { display: block; padding: 10px 0 clamp(48px, 8vw, 110px); }
 .writing .foot { margin-top: clamp(48px, 7vw, 90px); padding-top: 20px; border-top: 1px solid var(--c-dark); }
 
