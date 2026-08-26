@@ -216,6 +216,7 @@ const latestPosts = (await getCollection('writing', ({ data }) => !data.draft))
           </li>
         ))}
       </ul>
+      <p class="writing-subline">Ten pieces on footballers as company builders.</p>
       <br />
       <p class="writing-cta"><a href="/writing">More &rarr;</a></p>
     </div>
@@ -294,11 +295,12 @@ const latestPosts = (await getCollection('writing', ({ data }) => !data.draft))
     font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
     line-height: 1.15;
     text-decoration: none;
-    transition: color 0.4s var(--ease-in-out-custom);
   }
 
-  .writing-list a:hover {
-    color: var(--c-grey-dark);
+  .writing-subline {
+    margin-top: 0.75rem;
+    font-size: var(--fs-3);
+    max-width: 40rem;
   }
 
   .writing-cta {
