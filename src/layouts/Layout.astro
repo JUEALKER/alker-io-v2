@@ -18,6 +18,8 @@ const ogTitle = 'Alker. What if now?';
 const ogDescription = 'The first version of what you can almost see. Jürgen Alker.';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// Vercel preview deployments must never be indexed
+const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
 ---
 
 <!doctype html>
@@ -36,6 +38,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <!-- SEO -->
     <meta name="description" content={description} />

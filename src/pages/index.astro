@@ -198,6 +198,21 @@ import Slide from '@components/Slide.astro';
     </div>
   </Slide>
 
+  <!-- ── Writing ───────────────────────────────────── -->
+  <Slide id="writing" colorBg="grey-light" colorInner="primary">
+    <div class="heading">
+      <h2 class="title h2">Writing</h2>
+    </div>
+    <div class="content">
+      <p>
+        Ten pieces on footballers as company builders.
+      </p>
+      <br />
+      <p class="writing-cta">Read &rarr;</p>
+    </div>
+    <a class="slide-link" href="/writing" aria-label="Read the writing section"></a>
+  </Slide>
+
   <!-- ── Contact ───────────────────────────────────── -->
   <Slide id="contact" colorBg="light" colorInner="dark" triggerAlwaysVisible>
     <div class="heading">
@@ -260,6 +275,23 @@ import Slide from '@components/Slide.astro';
 </Layout>
 
 <style>
+  /* ── Writing slide ────────────────────────────────── */
+  /* The whole slide is one link to /writing; the legal trigger
+     buttons sit above it (z-index 5 in Trigger.astro). */
+  .slide-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .writing-cta {
+    display: inline-block;
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-3);
+    border-top: 1px solid var(--c-dark);
+    padding-top: 0.75rem;
+  }
+
   /* ── Slide content layout ─────────────────────────── */
   .heading {
     display: flex;

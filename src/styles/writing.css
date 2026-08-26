@@ -1,0 +1,121 @@
+/* alker.io — writing section
+   Additions to the existing token set. Namespaced under .writing so nothing
+   leaks into the slide deck. Assumes the global tokens (--c-*, --grid-margin,
+   --ease) are already defined by the existing global stylesheet. */
+
+.writing {
+  --ease: var(--ease-in-out-custom);
+  --fs-2: clamp(2.75rem, 1.9rem + 3.6vw, 4.5rem);
+  --fs-3: clamp(1rem, 0.95rem + 0.2vw, 1.25rem);
+  --fs-read: clamp(1.125rem, 0.95rem + 0.6vw, 1.375rem);
+  --fs-entry: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --fs-teaser: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
+  --column: 44rem;
+
+  background: var(--c-grey-light);
+  color: var(--c-dark);
+  font-family: 'Messina Sans', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  padding: var(--grid-margin);
+  min-height: 100vh;
+}
+
+.writing .display {
+  font-family: 'Messina Sans', Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.writing .label {
+  font-weight: 600;
+  font-size: var(--fs-3);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.writing a { color: inherit; text-decoration: none; }
+
+.writing .skip {
+  position: absolute;
+  top: -100%;
+  left: 0.625rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--c-dark);
+  color: var(--c-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0 0 0.25rem 0.25rem;
+  transition: top 0.2s;
+}
+
+.writing .skip:focus {
+  top: 0;
+}
+.writing a:focus-visible { outline: 2px solid var(--c-dark); outline-offset: 3px; }
+
+.writing .page { max-width: var(--column); margin: 0 auto; padding-bottom: clamp(60px, 10vh, 140px); }
+.writing .wordmark { display: block; padding: 10px 0 clamp(48px, 8vw, 110px); }
+.writing .foot { margin-top: clamp(48px, 7vw, 90px); padding-top: 20px; border-top: 1px solid var(--c-dark); }
+
+/* index -------------------------------------------------------------- */
+.index-title { font-size: var(--fs-2); margin-bottom: clamp(28px, 4vw, 52px); }
+
+.entry { display: block; border-top: 1px solid var(--c-dark); padding: clamp(20px,2.4vw,30px) 0 clamp(26px,3vw,38px); }
+.entry:last-of-type { border-bottom: 1px solid var(--c-dark); }
+.entry .label { display: block; margin-bottom: 10px; }
+.entry h2 { font-size: var(--fs-entry); margin-bottom: 12px; transition: color .4s var(--ease); }
+.entry p { font-size: var(--fs-teaser); line-height: 1.45; }
+.entry:hover h2 { color: var(--c-grey-dark); }
+
+.group { border-top: 1px solid var(--c-dark); padding-top: clamp(20px,2.4vw,30px); }
+.group > .label { display: block; margin-bottom: 10px; }
+.group > h2 { font-size: var(--fs-entry); margin-bottom: 12px; }
+.group > p { font-size: var(--fs-teaser); line-height: 1.45; margin-bottom: 22px; }
+.group ol { list-style: none; margin: 0 0 clamp(26px,3vw,38px); padding: 0; }
+.group li { font-size: var(--fs-teaser); line-height: 1.9; }
+.group li .num { font-weight: 600; display: inline-block; width: 2.6em; }
+.group li a { transition: color .4s var(--ease); }
+.group li a:hover { color: var(--c-grey-dark); }
+
+/* article ------------------------------------------------------------ */
+.article > .label { display: block; margin-bottom: 14px; }
+.article h1 { font-size: var(--fs-2); margin-bottom: 18px; }
+.standfirst { font-size: clamp(1.25rem, 1rem + 0.9vw, 1.625rem); line-height: 1.3; margin-bottom: 20px; }
+.meta { border-bottom: 1px solid var(--c-dark); padding-bottom: 16px; margin-bottom: clamp(26px,3vw,40px); }
+
+.prose p { font-size: var(--fs-read); line-height: 1.55; margin: 0 0 1em; }
+.prose strong { font-weight: 600; }
+.prose h2 { font-size: clamp(1.375rem, 1.1rem + 1.2vw, 1.875rem); margin: clamp(32px,3.6vw,50px) 0 14px; }
+.prose ul, .prose ol { font-size: var(--fs-read); line-height: 1.55; margin: 0 0 1em 1.4em; }
+
+.prose blockquote { padding-left: clamp(16px,2vw,28px); border-left: 2px solid var(--c-dark); margin: clamp(26px,3vw,40px) 0; }
+.prose blockquote p { margin: 0; }
+
+.statement { font-size: clamp(1.625rem, 1.2rem + 1.9vw, 2.5rem); margin: clamp(28px,3.4vw,46px) 0; }
+
+.prose figure,
+.article > figure { margin: clamp(26px,3vw,40px) 0; }
+.prose figure img,
+.article > figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+
+.contents { border-top: 1px solid var(--c-dark); border-bottom: 1px solid var(--c-dark);
+  padding: 16px 0; margin-bottom: clamp(26px,3vw,40px); list-style: none; counter-reset: toc; }
+.contents li { counter-increment: toc; font-size: 1rem; line-height: 1.8; }
+.contents li::before { content: counter(toc, decimal-leading-zero); display: inline-block; width: 2.6em; font-weight: 600; }
+
+.seriesnav { border-top: 1px solid var(--c-dark); padding-top: 20px; margin-top: clamp(36px,4vw,56px); }
+.seriesnav a { display: flex; justify-content: space-between; gap: 20px; padding: 8px 0;
+  font-size: var(--fs-teaser); transition: color .4s var(--ease); }
+.seriesnav a:hover { color: var(--c-grey-dark); }
+.seriesnav a span:first-child { font-weight: 600; }
+
+.sub { margin-top: clamp(30px,3.4vw,44px); padding-top: 20px; border-top: 1px solid var(--c-dark); }
+.sub p { font-size: var(--fs-teaser); line-height: 1.45; margin-bottom: 6px; }
+.sub a { font-weight: 600; border-bottom: 1px solid var(--c-dark); }
+
+@media (prefers-reduced-motion: reduce) {
+  .writing * { transition: none !important; }
+}

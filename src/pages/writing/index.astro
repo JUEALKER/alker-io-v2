@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import Writing from '../../layouts/Writing.astro';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const seriesDefs = await getCollection('series');
+
+// Group posts that belong to a series, keep the rest as single entries.
+const grouped = seriesDefs
+  .map((s) => ({
+    def: s,
+    parts: posts
+      .filter((p) => p.data.series === s.id)
+      .sort((a, b) => (a.data.part ?? 0) - (b.data.part ?? 0)),
+  }))
+  .filter((g) => g.parts.length > 0)
+  .sort((a, b) => a.def.data.order - b.def.data.order);
+
+const singles = posts.filter((p) => !p.data.series);
+
+const month = (d: Date) =>
+  d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+const site = Astro.site!;
+const canonical = new URL('/writing', site).href;
+const postUrl = (id: string) => new URL(`/writing/${id}`, site).href;
+
+const person = { '@type': 'Person', name: 'Jürgen Alker', url: site.href };
+
+// One graph: the collection page, each series as a CreativeWorkSeries with a
+// stable @id (resolvable via the HTML anchor on its section), and the single
+// posts. Articles on their own pages point back at the same series @id.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: 'Writing',
+      url: canonical,
+      author: person,
+      hasPart: [
+        ...grouped.map(({ def }) => ({ '@id': `${canonical}#${def.id}` })),
+        ...singles.map((p) => ({
+          '@type': 'Article',
+          headline: p.data.title,
+          url: postUrl(p.id),
+          datePublished: p.data.date.toISOString(),
+          author: person,
+        })),
+      ],
+    },
+    ...grouped.map(({ def, parts }) => ({
+      '@type': 'CreativeWorkSeries',
+      '@id': `${canonical}#${def.id}`,
+      name: def.data.title,
+      description: def.data.standfirst,
+      url: `${canonical}#${def.id}`,
+      author: person,
+      hasPart: parts.map((p) => ({
+        '@type': 'Article',
+        headline: p.data.title,
+        url: postUrl(p.id),
+        position: p.data.part,
+        datePublished: p.data.date.toISOString(),
+      })),
+    })),
+  ],
+};
+---
+<Writing
+  title="Writing — Alker"
+  description="Essays on brands, players and company building in sport and culture."
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <h1 class="display index-title">Writing</h1>
+
+  {grouped.map(({ def, parts }) => (
+    <section class="group" id={def.id}>
+      <span class="label">Series &middot; {parts.length} {parts.length === 1 ? 'part' : 'parts'}</span>
+      <h2 class="display">{def.data.title}</h2>
+      <p>{def.data.standfirst}</p>
+      <ol>
+        {parts.map((p) => (
+          <li>
+            <span class="num">{String(p.data.part ?? 0).padStart(2, '0')}</span>
+            <a href={`/writing/${p.id}`}>{p.data.title}</a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+
+  {singles.map((p) => (
+    <a class="entry" href={`/writing/${p.id}`}>
+      <span class="label">{month(p.data.date)}</span>
+      <h2 class="display">{p.data.title}</h2>
+      <p>{p.data.standfirst}</p>
+    </a>
+  ))}
+</Writing>

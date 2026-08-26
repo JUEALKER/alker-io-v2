@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Writing from '../../layouts/Writing.astro';
+import SeriesNav from '../../components/SeriesNav.astro';
+import Subscribe from '../../components/Subscribe.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }));
+}
+
+const { post, posts } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+
+const siblings = d.series
+  ? posts
+      .filter((p) => p.data.series === d.series)
+      .sort((a, b) => (a.data.part ?? 0) - (b.data.part ?? 0))
+  : [];
+const i = siblings.findIndex((p) => p.id === post.id);
+const toNav = (p: any) => (p ? { slug: p.id, title: p.data.title, part: p.data.part } : undefined);
+
+const seriesDef = d.series ? (await getCollection('series')).find((s) => s.id === d.series) : undefined;
+
+const pad = (n?: number) => (n === undefined ? '' : String(n).padStart(2, '0'));
+const month = d.date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+const pretitle = seriesDef ? `${seriesDef.data.title} · ${pad(d.part)}` : month;
+
+const site = Astro.site!;
+const canonical = new URL(`/writing/${post.id}`, site).href;
+const seriesId = seriesDef ? `${new URL('/writing', site).href}#${seriesDef.id}` : undefined;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.standfirst,
+  datePublished: d.date.toISOString(),
+  dateModified: d.date.toISOString(),
+  mainEntityOfPage: canonical,
+  url: canonical,
+  inLanguage: 'en',
+  author: {
+    '@type': 'Person',
+    name: 'Jürgen Alker',
+    url: site.href,
+    sameAs: ['https://www.linkedin.com/in/juergenalker/', 'https://alker.substack.com'],
+  },
+  ...(seriesDef && {
+    isPartOf: {
+      '@type': 'CreativeWorkSeries',
+      '@id': seriesId,
+      name: seriesDef.data.title,
+      url: seriesId,
+    },
+    position: d.part,
+  }),
+};
+---
+<Writing
+  title={`${d.title} — Alker`}
+  description={d.standfirst}
+  canonical={canonical}
+  ogImage={d.hero ? d.hero.src : '/og-default.png'}
+  jsonLd={jsonLd}
+>
+  <article class="article">
+    <span class="label">{pretitle}</span>
+    <h1 class="display">{d.title}</h1>
+    <p class="standfirst">{d.standfirst}</p>
+    <div class="meta label">{month}</div>
+
+    {d.hero && d.heroAlt && (
+      <figure>
+        <Image src={d.hero} alt={d.heroAlt} widths={[640, 1024, 1600]}
+               sizes="(min-width: 46rem) 44rem, 100vw" format="webp" quality={80} />
+      </figure>
+    )}
+
+    {d.contents && d.contents.length > 0 && (
+      <ol class="contents">
+        {d.contents.map((c) => <li>{c}</li>)}
+      </ol>
+    )}
+
+    <div class="prose"><Content /></div>
+
+    <SeriesNav
+      prev={toNav(siblings[i - 1])}
+      next={toNav(siblings[i + 1])}
+      seriesTitle={i === siblings.length - 1 ? seriesDef?.data.title : undefined}
+    />
+    <Subscribe />
+  </article>
+</Writing>

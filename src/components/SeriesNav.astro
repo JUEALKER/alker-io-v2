@@ -1,0 +1,27 @@
+---
+interface Props {
+  prev?: { slug: string; title: string; part: number };
+  next?: { slug: string; title: string; part: number };
+  seriesSlug?: string;
+  seriesTitle?: string;
+}
+const { prev, next, seriesTitle } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+{(prev || next || seriesTitle) && (
+  <nav class="seriesnav" aria-label="Series navigation">
+    {prev && (
+      <a href={`/writing/${prev.slug}`}>
+        <span>&larr; {pad(prev.part)}</span><span>{prev.title}</span>
+      </a>
+    )}
+    {next && (
+      <a href={`/writing/${next.slug}`}>
+        <span>{pad(next.part)} &rarr;</span><span>{next.title}</span>
+      </a>
+    )}
+    {seriesTitle && (
+      <a href="/writing"><span>All parts</span><span>{seriesTitle} &rarr;</span></a>
+    )}
+  </nav>
+)}

@@ -1,0 +1,54 @@
+---
+/**
+ * Base layout for every page under /writing.
+ * One column, no deck, no overlay. The wordmark top left returns to the deck.
+ */
+import '../styles/global.css';   // existing global tokens and fonts
+import '../styles/writing.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, canonical, ogImage = '/og-image.png', jsonLd } = Astro.props;
+const site = Astro.site!;
+// Vercel preview deployments must never be indexed
+const noindex = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#E3E1DF" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, site).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="alternate" type="application/rss+xml" title="Alker — Writing" href={new URL('/writing/rss.xml', site).href} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+
+  <body class="writing">
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="page">
+      <a class="wordmark label" href="/">Alker</a>
+      <main id="main">
+        <slot />
+      </main>
+      <div class="foot"><a class="label" href="/">&larr; Alker</a></div>
+    </div>
+  </body>
+</html>
