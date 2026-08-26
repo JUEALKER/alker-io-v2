@@ -6,7 +6,7 @@ const writing = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      standfirst: z.string().min(40).max(320),
+      standfirst: z.string().min(1),
       date: z.coerce.date(),
       series: z.string().optional(),
       part: z.number().int().positive().optional(),
@@ -15,8 +15,8 @@ const writing = defineCollection({
       contents: z.array(z.string()).optional(),
       draft: z.boolean().default(false),
     })
-    .refine((d) => !d.series || d.part !== undefined, {
-      message: 'A post with a series must declare a part number.',
+    .refine((d) => (d.series == null) === (d.part == null), {
+      message: 'series and part must be set together.',
     })
     .refine((d) => !d.hero || !!d.heroAlt, {
       message: 'A hero image needs heroAlt.',

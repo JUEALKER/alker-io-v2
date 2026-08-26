@@ -7,6 +7,25 @@ import Subscribe from '../../components/Subscribe.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing', ({ data }) => !data.draft);
+
+  // Collection-wide checks that Zod cannot do per entry; a violation
+  // must kill the build, not surface at runtime.
+  const seriesIds = new Set((await getCollection('series')).map((s) => s.id));
+  const seenParts = new Map<string, Map<number, string>>();
+  for (const p of posts) {
+    if (!p.data.series) continue;
+    if (!seriesIds.has(p.data.series)) {
+      throw new Error(`${p.id}: unknown series "${p.data.series}"`);
+    }
+    const parts = seenParts.get(p.data.series) ?? new Map<number, string>();
+    const dupe = parts.get(p.data.part!);
+    if (dupe) {
+      throw new Error(`series "${p.data.series}": part ${p.data.part} used by both ${dupe} and ${p.id}`);
+    }
+    parts.set(p.data.part!, p.id);
+    seenParts.set(p.data.series, parts);
+  }
+
   return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }));
 }
 
@@ -67,7 +86,7 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <article class="article">
-    <span class="label">{pretitle}</span>
+    {seriesDef && <span class="label">{pretitle}</span>}
     <h1 class="display">{d.title}</h1>
     <p class="standfirst">{d.standfirst}</p>
     <div class="meta label">{month}</div>

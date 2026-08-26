@@ -103,7 +103,11 @@
 .prose figure,
 .article > figure { margin: clamp(26px,3vw,40px) 0; }
 .prose figure img,
+.prose img,
 .article > figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
+
+/* italic caption line directly under an image */
+.prose p > img + em, .prose img + em { display: block; margin-top: 8px; font-size: 0.875rem; }
 
 .contents { border-top: 1px solid var(--c-dark); border-bottom: 1px solid var(--c-dark);
   padding: 16px 0; margin-bottom: clamp(26px,3vw,40px); list-style: none; counter-reset: toc; }
