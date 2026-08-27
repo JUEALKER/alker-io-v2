@@ -20,6 +20,17 @@ const grouped = seriesDefs
 
 const singles = posts.filter((p) => !p.data.series);
 
+// One chronological stream: each series takes the slot of its newest part,
+// so new singles appear above it once they are more recent.
+const entries = [
+  ...grouped.map((g) => ({
+    date: Math.max(...g.parts.map((p) => p.data.date.valueOf())),
+    series: g,
+    post: undefined,
+  })),
+  ...singles.map((p) => ({ date: p.data.date.valueOf(), series: undefined, post: p })),
+].sort((a, b) => b.date - a.date);
+
 const month = (d: Date) =>
   d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 
@@ -78,27 +89,27 @@ const jsonLd = {
 >
   <h1 class="visually-hidden">Writing</h1>
 
-  {grouped.map(({ def, parts }) => (
-    <section class="group" id={def.id}>
-      <span class="label">Series &middot; {parts.length} {parts.length === 1 ? 'part' : 'parts'}</span>
-      <h2 class="display">{def.data.title}</h2>
-      <p>{def.data.standfirst}</p>
-      <ol>
-        {parts.map((p) => (
-          <li>
-            <span class="num">{String(p.data.part ?? 0).padStart(2, '0')}</span>
-            <a href={`/writing/${p.id}`}>{p.data.title}</a>
-          </li>
-        ))}
-      </ol>
-    </section>
-  ))}
-
-  {singles.map((p) => (
-    <a class="entry" href={`/writing/${p.id}`}>
-      <span class="label">{month(p.data.date)}</span>
-      <h2 class="display">{p.data.title}</h2>
-      <p>{p.data.standfirst}</p>
-    </a>
-  ))}
+  {entries.map(({ series, post }) =>
+    series ? (
+      <section class="group" id={series.def.id}>
+        <span class="label">Series &middot; {series.parts.length} {series.parts.length === 1 ? 'part' : 'parts'}</span>
+        <h2 class="display">{series.def.data.title}</h2>
+        <p>{series.def.data.standfirst}</p>
+        <ol>
+          {series.parts.map((p) => (
+            <li>
+              <span class="num">{String(p.data.part ?? 0).padStart(2, '0')}</span>
+              <a href={`/writing/${p.id}`}>{p.data.title}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ) : (
+      <a class="entry" href={`/writing/${post!.id}`}>
+        <span class="label">{month(post!.data.date)}</span>
+        <h2 class="display">{post!.data.title}</h2>
+        <p>{post!.data.standfirst}</p>
+      </a>
+    )
+  )}
 </Writing>
