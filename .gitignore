@@ -15,3 +15,6 @@ node_modules/
 
 # Vercel
 .vercel
+
+# Article drafts (raw text and original images, never published directly)
+_blog/

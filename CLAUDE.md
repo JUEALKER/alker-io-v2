@@ -5,8 +5,9 @@ Slide-Deck (Hauptseite) + Writing-Sektion (`/writing`) + Imprint/Privacy.
 
 ## Neuen Artikel veröffentlichen
 
-Wenn Jürgen einen neuen Artikel liefert (Text + Bilder, meist in `../Alker_io/_briefing/`
-oder direkt genannt), ist das der Ablauf:
+Wenn Jürgen einen neuen Artikel liefert (Text + Bilder, in `_blog/<nr>/` in
+diesem Repo — gitignored, nie direkt veröffentlicht — oder direkt genannt),
+ist das der Ablauf:
 
 1. **Ordner anlegen:** `src/content/writing/<slug>/` — Slug kurz, sprechend,
    kleingeschrieben mit Bindestrichen. Wird Teil der URL, später nicht mehr ändern.
