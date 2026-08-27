@@ -74,5 +74,5 @@ Substack mit Verweis auf das Original. Substack-Slugs bewusst identisch halten.
 ## Kontext
 
 - Rollback-Anker: Tag `textstand-advisory-2026-07-21` (Stand vor dem Relaunch).
-- Das Repo `../Alker_io` ist LEGACY (alter statischer Export) — nie dort arbeiten.
-- Migrationshistorie der 43 Substack-Artikel: `../Alker_io/_briefing/migration alker blog/MIGRATIONSREPORT.md`.
+- Das Repo `../alker_legacy` ist LEGACY (alter statischer Export) — nie dort arbeiten.
+- Migrationshistorie der 43 Substack-Artikel: `../alker_legacy/_briefing/migration alker blog/MIGRATIONSREPORT.md`.
