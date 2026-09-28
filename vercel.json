@@ -49,6 +49,11 @@
       "source": "/my-notes/:path*",
       "destination": "/writing",
       "permanent": true
+    },
+    {
+      "source": "/writing/lessons-from-la-how-supremes-legacy",
+      "destination": "/writing/who-needs-a-frog-on-a-t-shirt",
+      "permanent": true
     }
   ]
 }

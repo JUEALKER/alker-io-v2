@@ -4,7 +4,7 @@ standfirst: "In today's rapidly evolving digital landscape, innovative technolog
 date: 2023-08-31
 hero: ./hero.webp
 heroAlt: "Peeling street poster of Kermit the Frog wearing a white Supreme box logo T-shirt"
-draft: false
+draft: true
 ---
 
 Rewind to September 2008. I found myself on the streets of Los Angeles, working on a book project for Dickies (with the amazing Brian Cross). During my month-long stay, I tried to absorb as much of the city's culture as possible. I also visited all the stores of the brands I admired: Undefeated, Stussy, Alife. And Supreme.
